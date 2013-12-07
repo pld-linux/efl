@@ -31,6 +31,7 @@ Group:		Libraries
 Source0:	http://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
 # Source0-md5:	2289689fb6439eec251156f10ee0a203
 Patch0:		%{name}-pc.patch
+Patch1:		%{name}-wayland.patch
 URL:		https://trac.enlightenment.org/e/wiki/EFL
 %{?with_egl:BuildRequires:	EGL-devel}
 BuildRequires:	OpenGL-GLX-devel
@@ -313,16 +314,6 @@ Requires:	ecore = %{version}-%{release}
 Requires:	ecore-input = %{version}-%{release}
 Requires:	ecore-input-evas = %{version}-%{release}
 Requires:	evas = %{version}-%{release}
-# for individual modules now
-##Requires:	ecore-fb = %{version}-%{release}
-##Requires:	ecore-ipc = %{version}-%{release}
-##Requires:	ecore-sdl = %{version}-%{release}
-%if %{with wayland}
-##Requires:	ecore-wayland = %{version}-%{release}
-#Requires:	Mesa-libwayland-egl >= 9.2.0
-#Requires:	Mesa-libEGL >= 7.10
-%endif
-##Requires:	ecore-x = %{version}-%{release}
 
 %description -n ecore-evas
 Ecore Evas library.
@@ -631,6 +622,22 @@ Ecore IMF SCIM input method module.
 %description -n ecore-imf-module-scim -l pl.UTF-8
 Ecore IMF - moduł metody wprowadzania znaków SCIM.
 
+%package -n ecore-imf-module-wayland
+Summary:	Ecore IMF Wayland input method module
+Summary(pl.UTF-8):	Ecore IMF - moduł metody wprowadzania znaków Wayland
+License:	BSD
+Group:		Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Ecore
+Requires:	ecore-evas = %{version}-%{release}
+Requires:	ecore-imf = %{version}-%{release}
+Requires:	ecore-wayland = %{version}-%{release}
+
+%description -n ecore-imf-module-wayland
+Ecore IMF Wayland input method module.
+
+%description -n ecore-imf-module-wayland -l pl.UTF-8
+Ecore IMF - moduł metody wprowadzania znaków Wayland.
+
 %package -n ecore-imf-module-xim
 Summary:	Ecore IMF XIM input method module
 Summary(pl.UTF-8):	Ecore IMF - moduł metody wprowadzania znaków XIM
@@ -875,6 +882,7 @@ Group:		Libraries
 Requires:	ecore = %{version}-%{release}
 Requires:	ecore-input = %{version}-%{release}
 Requires:	wayland >= 1.3.0
+Requires:	xorg-lib-libxkbcommon >= 0.3.0
 
 %description -n ecore-wayland
 Ecore Wayland library.
@@ -889,6 +897,7 @@ Group:		Development/Libraries
 Requires:	ecore-devel = %{version}-%{release}
 Requires:	ecore-input-devel = %{version}-%{release}
 Requires:	wayland-devel >= 1.3.0
+Requires:	xorg-lib-libxkbcommon-devel >= 0.3.0
 
 %description -n ecore-wayland-devel
 Header file for Ecore Wayland library.
@@ -1947,6 +1956,8 @@ Summary(pl.UTF-8):	Moduł silnika renderującego Wayland EGL dla Evas
 License:	BSD
 Group:		Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Evas
+Requires:	Mesa-libEGL-devel >= 7.10
+Requires:	Mesa-libwayland-egl-devel >= 9.2.0
 Requires:	evas = %{version}-%{release}
 
 %description -n evas-engine-wayland_egl
@@ -2129,6 +2140,7 @@ Obsługa składni EDC dla Vima.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__libtoolize}
@@ -2450,7 +2462,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/ecore_imf/modules
 %{_datadir}/ecore_imf
 
-
 %files -n ecore-imf-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libecore_imf.so
@@ -2477,6 +2488,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/ecore_imf/modules/scim
 %dir %{_libdir}/ecore_imf/modules/scim/linux-gnu-*
 %attr(755,root,root) %{_libdir}/ecore_imf/modules/scim/linux-gnu-*/module.so
+%endif
+
+%if %{with wayland}
+%files -n ecore-imf-module-wayland
+%defattr(644,root,root,755)
+%dir %{_libdir}/ecore_imf/modules/wayland
+%dir %{_libdir}/ecore_imf/modules/wayland/linux-gnu-*
+%attr(755,root,root) %{_libdir}/ecore_imf/modules/wayland/linux-gnu-*/module.so
 %endif
 
 %if %{without xcb_api}
