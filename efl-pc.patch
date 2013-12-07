@@ -1,0 +1,13 @@
+--- efl-1.8.1/Makefile.am.orig	2013-11-24 05:25:00.000000000 +0100
++++ efl-1.8.1/Makefile.am	2013-12-07 08:04:12.943421416 +0100
+@@ -146,6 +146,10 @@
+ pkgconfig_DATA += pc/evas-software-x11.pc
+ endif
+ 
++if BUILD_ENGINE_DRM
++pkgconfig_DATA += pc/evas-drm.pc
++endif
++
+ if BUILD_ENGINE_FB
+ pkgconfig_DATA += pc/evas-fb.pc
+ endif
