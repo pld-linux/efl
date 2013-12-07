@@ -71,7 +71,7 @@ BuildRequires:	pixman-devel
 BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	pulseaudio-devel
 %{?with_scim:BuildRequires:	scim-devel}
-%{?with_systemd:BuildRequires:	systemd-devel >= 192}
+%{?with_systemd:BuildRequires:	systemd-devel >= 1:192}
 BuildRequires:	tslib-devel
 %{?with_xine:BuildRequires:	xine-lib-devel >= 2:1.1.1}
 BuildRequires:	zlib-devel >= 1.2.3
@@ -122,6 +122,7 @@ Group:		Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Ecore
 Requires:	eina = %{version}-%{release}
 Requires:	eo = %{version}-%{release}
+%{?with_systemd:Requires:	systemd-libs >= 1:192}
 Obsoletes:	ecore-config
 Obsoletes:	ecore-config-devel
 Obsoletes:	ecore-config-static
@@ -156,6 +157,7 @@ Requires:	ecore = %{version}-%{release}
 Requires:	eina-devel = %{version}-%{release}
 Requires:	eo-devel = %{version}-%{release}
 Requires:	glib2-devel >= 2.0
+%{?with_systemd:Requires:	systemd-devel >= 1:192}
 
 %description -n ecore-devel
 Header files for Ecore library.
@@ -1343,6 +1345,7 @@ Summary(pl.UTF-8):	Biblioteka struktur danych (lista, hasz, itp.)
 License:	LGPL v2.1+
 Group:		Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Eina
+%{?with_systemd:Requires:	systemd-libs >= 1:192}
 
 %description -n eina
 Data types library (list, hash, etc.)
@@ -1357,6 +1360,7 @@ License:	LGPL v2.1+
 Group:		Development/Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Eina
 Requires:	eina = %{version}-%{release}
+%{?with_systemd:Requires:	systemd-devel >= 1:192}
 
 %description -n eina-devel
 Header files for Eina.
