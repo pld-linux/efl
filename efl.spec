@@ -1,5 +1,5 @@
 # TODO:
-# - gesture (libXgesture, gesture.h) - tizen-specific?
+# - gesture (libXgesture, gesture.h) - tizen-specific? http://download.tizen.org/releases/2.2.1/latest/repos/tizen-main/source/
 # - use system liblinebreak?
 # - eio-devel conflicts with libeio-devel
 #	file /usr/lib64/libeio.so from install of eio-devel-0.1.0.65643-1.x86_64 conflicts with file from package libeio-devel-1.0-1.x86_64
