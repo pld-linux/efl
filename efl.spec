@@ -2184,7 +2184,7 @@ Obsługa składni EDC dla Vima.
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
+%{__make} -j1 install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_datadir}/vim/vimfiles
