@@ -1,5 +1,5 @@
 # TODO:
-# - gesture (libXgesture, gesture.h) - tizen-specific? http://download.tizen.org/releases/2.2.1/latest/repos/tizen-main/source/
+# - Xpresent
 # - use system liblinebreak?
 # - eio-devel conflicts with libeio-devel
 #	file /usr/lib64/libeio.so from install of eio-devel-0.1.0.65643-1.x86_64 conflicts with file from package libeio-devel-1.0-1.x86_64
@@ -8,10 +8,12 @@
 %bcond_without	drm		# DRM engine
 %bcond_without	egl		# EGL rendering support
 %bcond_without	fb		# Linux FrameBuffer support
-%bcond_without	gstreamer	# GStreamer (0.10.x) support
+%bcond_without	gstreamer	# GStreamer support
+%bcond_with	gesture		# Xgesture support in Ecore_X
 %bcond_without	harfbuzz	# HarfBuzz complex text shaping and layouting support
 %bcond_without	ibus		# IBus input module
-%bcond_without	pixman		# pixmap for software rendering
+%bcond_without	luajit		# LuaJIT as Lua engine (Lua 5.1 interpreter if disabled)
+%bcond_with	pixman		# pixman for software rendering
 %bcond_without	scim		# SCIM input module
 %bcond_without	sdl		# SDL support
 %bcond_with	systemd		# systemd journal support in Eina, daemon support in Ecore
@@ -24,12 +26,12 @@
 Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
-Version:	1.8.5
+Version:	1.9.1
 Release:	1
 License:	LGPL v2.1+, BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
-# Source0-md5:	c05921fd686aef11045770b65ed0d72e
+# Source0-md5:	638239c133fe98c6bfae22406846958c
 Patch0:		%{name}-pc.patch
 Patch1:		%{name}-wayland.patch
 URL:		https://trac.enlightenment.org/e/wiki/EFL
@@ -38,6 +40,7 @@ BuildRequires:	OpenGL-GLX-devel
 %{?with_sdl:BuildRequires:	SDL-devel >= 1.2.0}
 BuildRequires:	autoconf >= 2.60
 BuildRequires:	automake >= 1.6
+BuildRequires:	avahi-devel
 BuildRequires:	bullet-devel >= 2.80
 BuildRequires:	dbus-devel
 BuildRequires:	doxygen
@@ -49,8 +52,8 @@ BuildRequires:	giflib-devel
 BuildRequires:	glib2-devel >= 2.0
 %{?with_gnutls:BuildRequires:	gnutls-devel >= 2.12.16}
 %if %{with gstreamer}
-BuildRequires:	gstreamer0.10-devel >= 0.10.2
-BuildRequires:	gstreamer0.10-plugins-base-devel >= 0.10.34
+BuildRequires:	gstreamer-devel >= 1.0
+BuildRequires:	gstreamer-plugins-base-devel >= 1.0
 %endif
 %{?with_harfbuzz:BuildRequires:	harfbuzz-devel >= 0.9.0}
 %{?with_ibus:BuildRequires:	ibus-devel >= 1.4}
@@ -61,7 +64,8 @@ BuildRequires:	libpng-devel >= 1.2.10
 BuildRequires:	libsndfile-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libwebp-devel
-BuildRequires:	lua51 >= 5.1.0
+%{!?with_luajit:BuildRequires:	lua51 >= 5.1.0}
+%{?with_luajit:BuildRequires:	luajit >= 2.0.0}
 BuildRequires:	libtool >= 2:2
 BuildRequires:	openjpeg2-devel >= 2
 %{!?with_gnutls:BuildRequires:	openssl-devel}
@@ -74,6 +78,7 @@ BuildRequires:	pulseaudio-devel
 %{?with_systemd:BuildRequires:	systemd-devel >= 1:192}
 BuildRequires:	tslib-devel
 %{?with_xine:BuildRequires:	xine-lib-devel >= 2:1.1.1}
+%{?with_gesture:BuildRequires:	xorg-lib-libXgesture-devel}
 BuildRequires:	zlib-devel >= 1.2.3
 %if %{with xcb}
 BuildRequires:	libxcb-devel
@@ -92,7 +97,7 @@ BuildRequires:	xorg-lib-libXfixes-devel
 BuildRequires:	xorg-lib-libXi-devel >= 1.6
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXp-devel
-BuildRequires:	xorg-lib-libXrandr-devel
+BuildRequires:	xorg-lib-libXrandr-devel >= 1.3.3
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXtst-devel
 %endif
@@ -106,6 +111,9 @@ BuildRequires:	xorg-lib-libxkbcommon-devel >= 0.3.0
 #BuildRequires:	esvg-devel >= 0.0.18
 #BuildRequires:	ender-devel >= 0.0.6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# it used to be linux-gnu-ARCH before...
+%define		arch_tag	v-1.9
 
 %description
 EFL - The Enlightenment Foundation Libraries.
@@ -255,6 +263,54 @@ Static Ecore Audio library.
 
 %description -n ecore-audio-static -l pl.UTF-8
 Statyczna biblioteka dźwięku Ecore Audio.
+
+%package -n ecore-avahi
+Summary:	Ecore Avahi integration library
+Summary(pl.UTF-8):	Biblioteka integracji Ecore z Avahi
+License:	unknown
+Group:		Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Ecore
+Requires:	ecore = %{version}-%{release}
+Requires:	eina = %{version}-%{release}
+Requires:	eo = %{version}-%{release}
+
+%description -n ecore-avahi
+Ecore Avahi integration library.
+
+%description -n ecore-avahi -l pl.UTF-8
+Biblioteka integracji Ecore z Avahi.
+
+%package -n ecore-avahi-devel
+Summary:	Header file for Ecore Avahi library
+Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore Avahi
+License:	unknown
+Group:		Development/Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Ecore
+Requires:	avahi-devel
+Requires:	ecore-avahi = %{version}-%{release}
+Requires:	ecore-devel = %{version}-%{release}
+Requires:	eina-devel = %{version}-%{release}
+Requires:	eo-devel = %{version}-%{release}
+
+%description -n ecore-avahi-devel
+Header file for Ecore Avahi library.
+
+%description -n ecore-avahi-devel -l pl.UTF-8
+Plik nagłówkowy biblioteki dźwięku Ecore Avahi.
+
+%package -n ecore-avahi-static
+Summary:	Static Ecore Avahi library
+Summary(pl.UTF-8):	Statyczna biblioteka Ecore Avahi
+License:	unknown
+Group:		Development/Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Ecore
+Requires:	ecore-avahi-devel = %{version}-%{release}
+
+%description -n ecore-avahi-static
+Static Ecore Avahi library.
+
+%description -n ecore-avahi-static -l pl.UTF-8
+Statyczna biblioteka dźwięku Ecore Avahi.
 
 %package -n ecore-con
 Summary:	Ecore Con(nection) library
@@ -932,6 +988,7 @@ Requires:	xcb-util-keysyms >= 0.3.8
 Requires:	xcb-util-wm >= 0.3.8
 %else
 Requires:	xorg-lib-libXi >= 1.6
+Requires:	xorg-lib-libXrandr >= 1.3.3
 %endif
 
 %description -n ecore-x
@@ -965,7 +1022,7 @@ Requires:	xorg-lib-libXfixes-devel
 Requires:	xorg-lib-libXi-devel >= 1.6
 Requires:	xorg-lib-libXinerama-devel
 Requires:	xorg-lib-libXp-devel
-Requires:	xorg-lib-libXrandr-devel
+Requires:	xorg-lib-libXrandr-devel >= 1.3.3
 Requires:	xorg-lib-libXrender-devel
 Requires:	xorg-lib-libXtst-devel
 %endif
@@ -1048,7 +1105,8 @@ Requires:	eio = %{version}-%{release}
 Requires:	eet = %{version}-%{release}
 Requires:	embryo = %{version}-%{release}
 Requires:	ephysics = %{version}-%{release}
-Requires:	lua51 >= 5.1.0
+%{!?with_luajit:Requires:	lua51 >= 5.1.0}
+%{?with_luajit:Requires:	luajit >= 2.0.0}
 
 %description -n edje-libs
 Edje library.
@@ -1071,7 +1129,8 @@ Requires:	eet-devel = %{version}-%{release}
 Requires:	eio-devel = %{version}-%{release}
 Requires:	embryo-devel = %{version}-%{release}
 Requires:	ephysics-devel = %{version}-%{release}
-Requires:	lua51-devel >= 5.1.0
+%{!?with_luajit:Requires:	lua51-devel >= 5.1.0}
+%{?with_luajit:Requires:	luajit-devel >= 2.0.0}
 
 %description -n edje-devel
 Header files for Edje.
@@ -1588,8 +1647,8 @@ License:	BSD
 Group:		Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Emotion
 Requires:	emotion = %{version}-%{release}
-Requires:	gstreamer0.10 >= 0.10.2
-Requires:	gstreamer0.10-plugins-base >= 0.10.34
+Requires:	gstreamer >= 1.0
+Requires:	gstreamer-plugins-base >= 1.0
 
 %description -n emotion-decoder-gstreamer
 Emotion decoder using gstreamer.
@@ -2156,7 +2215,8 @@ Obsługa składni EDC dla Vima.
 	%{?with_drm:--enable-drm} \
 	%{?with_egl:--enable-egl} \
 	%{?with_fb:--enable-fb} \
-	%{!?with_gstreamer:--disable-gstreamer} \
+	%{?with_gesture:--enable-gesture} \
+	%{!?with_gstreamer:--disable-gstreamer1} \
 	%{?with_harfbuzz:--enable-harfbuzz} \
 	%{!?with_ibus:--disable-ibus} \
 	--enable-image-loader-gif \
@@ -2165,6 +2225,7 @@ Obsługa składni EDC dla Vima.
 	--enable-image-loader-png \
 	--enable-image-loader-tiff \
 	--enable-image-loader-webp \
+	%{!?with_luajit:--enable-lua-old} \
 	--enable-multisense \
 	%{?with_pixman:--enable-pixman} \
 	%{!?with_scim:--disable-scim} \
@@ -2172,7 +2233,6 @@ Obsługa składni EDC dla Vima.
 	--disable-silent-rules \
 	%{?with_static_libs:--enable-static} \
 	%{?with_systemd:--enable-systemd} \
-	--enable-tile-rotate \
 	%{?with_wayland:--enable-wayland} \
 	%{?with_xine:--enable-xine} \
 	--enable-xinput22 \
@@ -2216,6 +2276,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-n ecore-audio -p /sbin/ldconfig
 %postun	-n ecore-audio -p /sbin/ldconfig
+
+%post	-n ecore-avahi -p /sbin/ldconfig
+%postun	-n ecore-avahi -p /sbin/ldconfig
 
 %post	-n ecore-con -p /sbin/ldconfig
 %postun	-n ecore-con -p /sbin/ldconfig
@@ -2317,15 +2380,15 @@ rm -rf $RPM_BUILD_ROOT
 %files -n ecore-system-systemd
 %defattr(644,root,root,755)
 %dir %{_libdir}/ecore/system/systemd
-%dir %{_libdir}/ecore/system/systemd/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ecore/system/systemd/linux-gnu-*/module.so
+%dir %{_libdir}/ecore/system/systemd/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore/system/systemd/%{arch_tag}/module.so
 %endif
 
 %files -n ecore-system-upower
 %defattr(644,root,root,755)
 %dir %{_libdir}/ecore/system/upower
-%dir %{_libdir}/ecore/system/upower/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ecore/system/upower/linux-gnu-*/module.so
+%dir %{_libdir}/ecore/system/upower/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore/system/upower/%{arch_tag}/module.so
 
 %files -n ecore-audio
 %defattr(644,root,root,755)
@@ -2342,6 +2405,23 @@ rm -rf $RPM_BUILD_ROOT
 %files -n ecore-audio-static
 %defattr(644,root,root,755)
 %{_libdir}/libecore_audio.a
+%endif
+
+%files -n ecore-avahi
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libecore_avahi.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libecore_avahi.so.1
+
+%files -n ecore-avahi-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libecore_avahi.so
+%{_includedir}/ecore-avahi-1
+%{_pkgconfigdir}/ecore-avahi.pc
+
+%if %{with static_libs}
+%files -n ecore-avahi-static
+%defattr(644,root,root,755)
+%{_libdir}/libecore_avahi.a
 %endif
 
 %files -n ecore-con
@@ -2383,44 +2463,44 @@ rm -rf $RPM_BUILD_ROOT
 %files -n ecore-evas-engine-drm
 %defattr(644,root,root,755)
 %dir %{_libdir}/ecore_evas/engines/drm
-%dir %{_libdir}/ecore_evas/engines/drm/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ecore_evas/engines/drm/linux-gnu-*/module.so
+%dir %{_libdir}/ecore_evas/engines/drm/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore_evas/engines/drm/%{arch_tag}/module.so
 
 %files -n ecore-evas-engine-extn
 %defattr(644,root,root,755)
 %dir %{_libdir}/ecore_evas/engines/extn
-%dir %{_libdir}/ecore_evas/engines/extn/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ecore_evas/engines/extn/linux-gnu-*/module.so
+%dir %{_libdir}/ecore_evas/engines/extn/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore_evas/engines/extn/%{arch_tag}/module.so
 
 %if %{with fb}
 %files -n ecore-evas-engine-fb
 %defattr(644,root,root,755)
 %dir %{_libdir}/ecore_evas/engines/fb
-%dir %{_libdir}/ecore_evas/engines/fb/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ecore_evas/engines/fb/linux-gnu-*/module.so
+%dir %{_libdir}/ecore_evas/engines/fb/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore_evas/engines/fb/%{arch_tag}/module.so
 %endif
 
 %if %{with sdl}
 %files -n ecore-evas-engine-sdl
 %defattr(644,root,root,755)
 %dir %{_libdir}/ecore_evas/engines/sdl
-%dir %{_libdir}/ecore_evas/engines/sdl/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ecore_evas/engines/sdl/linux-gnu-*/module.so
+%dir %{_libdir}/ecore_evas/engines/sdl/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore_evas/engines/sdl/%{arch_tag}/module.so
 %endif
 
 %if %{with wayland}
 %files -n ecore-evas-engine-wayland
 %defattr(644,root,root,755)
 %dir %{_libdir}/ecore_evas/engines/wayland
-%dir %{_libdir}/ecore_evas/engines/wayland/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ecore_evas/engines/wayland/linux-gnu-*/module.so
+%dir %{_libdir}/ecore_evas/engines/wayland/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore_evas/engines/wayland/%{arch_tag}/module.so
 %endif
 
 %files -n ecore-evas-engine-x
 %defattr(644,root,root,755)
 %dir %{_libdir}/ecore_evas/engines/x
-%dir %{_libdir}/ecore_evas/engines/x/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ecore_evas/engines/x/linux-gnu-*/module.so
+%dir %{_libdir}/ecore_evas/engines/x/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore_evas/engines/x/%{arch_tag}/module.so
 
 %if %{with fb}
 %files -n ecore-fb
@@ -2482,32 +2562,32 @@ rm -rf $RPM_BUILD_ROOT
 %files -n ecore-imf-module-ibus
 %defattr(644,root,root,755)
 %dir %{_libdir}/ecore_imf/modules/ibus
-%dir %{_libdir}/ecore_imf/modules/ibus/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ecore_imf/modules/ibus/linux-gnu-*/module.so
+%dir %{_libdir}/ecore_imf/modules/ibus/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore_imf/modules/ibus/%{arch_tag}/module.so
 %endif
 
 %if %{with scim}
 %files -n ecore-imf-module-scim
 %defattr(644,root,root,755)
 %dir %{_libdir}/ecore_imf/modules/scim
-%dir %{_libdir}/ecore_imf/modules/scim/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ecore_imf/modules/scim/linux-gnu-*/module.so
+%dir %{_libdir}/ecore_imf/modules/scim/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore_imf/modules/scim/%{arch_tag}/module.so
 %endif
 
 %if %{with wayland}
 %files -n ecore-imf-module-wayland
 %defattr(644,root,root,755)
 %dir %{_libdir}/ecore_imf/modules/wayland
-%dir %{_libdir}/ecore_imf/modules/wayland/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ecore_imf/modules/wayland/linux-gnu-*/module.so
+%dir %{_libdir}/ecore_imf/modules/wayland/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore_imf/modules/wayland/%{arch_tag}/module.so
 %endif
 
 %if %{without xcb_api}
 %files -n ecore-imf-module-xim
 %defattr(644,root,root,755)
 %dir %{_libdir}/ecore_imf/modules/xim
-%dir %{_libdir}/ecore_imf/modules/xim/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ecore_imf/modules/xim/linux-gnu-*/module.so
+%dir %{_libdir}/ecore_imf/modules/xim/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore_imf/modules/xim/%{arch_tag}/module.so
 %endif
 
 %files -n ecore-imf-evas
@@ -2645,8 +2725,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/edje_recc
 %attr(755,root,root) %{_bindir}/edje_watch
 %dir %{_libdir}/edje/utils
-%dir %{_libdir}/edje/utils/linux-gnu-*
-%attr(755,root,root) %dir %{_libdir}/edje/utils/linux-gnu-*/epp
+%dir %{_libdir}/edje/utils/%{arch_tag}
+%attr(755,root,root) %dir %{_libdir}/edje/utils/%{arch_tag}/epp
 %{_datadir}/edje
 %{_datadir}/mime/packages/edje.xml
 
@@ -2673,8 +2753,8 @@ rm -rf $RPM_BUILD_ROOT
 %files -n edje-module-emotion
 %defattr(644,root,root,755)
 %dir %{_libdir}/edje/modules/emotion
-%dir %{_libdir}/edje/modules/emotion/linux-gnu-*
-%attr(755,root,root) %{_libdir}/edje/modules/emotion/linux-gnu-*/module.so
+%dir %{_libdir}/edje/modules/emotion/%{arch_tag}
+%attr(755,root,root) %{_libdir}/edje/modules/emotion/%{arch_tag}/module.so
 
 %files -n eet
 %defattr(644,root,root,755)
@@ -2707,11 +2787,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/eeze/modules
 %dir %{_libdir}/eeze/modules/sensor
 %dir %{_libdir}/eeze/modules/sensor/fake
-%dir %{_libdir}/eeze/modules/sensor/fake/linux-gnu-*
-%attr(755,root,root) %{_libdir}/eeze/modules/sensor/fake/linux-gnu-*/module.so
+%dir %{_libdir}/eeze/modules/sensor/fake/%{arch_tag}
+%attr(755,root,root) %{_libdir}/eeze/modules/sensor/fake/%{arch_tag}/module.so
 %dir %{_libdir}/eeze/modules/sensor/udev
-%dir %{_libdir}/eeze/modules/sensor/udev/linux-gnu-*
-%attr(755,root,root) %{_libdir}/eeze/modules/sensor/udev/linux-gnu-*/module.so
+%dir %{_libdir}/eeze/modules/sensor/udev/%{arch_tag}
+%attr(755,root,root) %{_libdir}/eeze/modules/sensor/udev/%{arch_tag}/module.so
 %{_datadir}/eeze
 
 %files -n eeze-devel
@@ -2731,9 +2811,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/efreetd
 %dir %{_libdir}/efreet
-%dir %{_libdir}/efreet/linux-gnu-*
-%attr(755,root,root) %{_libdir}/efreet/linux-gnu-*/efreet_desktop_cache_create
-%attr(755,root,root) %{_libdir}/efreet/linux-gnu-*/efreet_icon_cache_create
+%dir %{_libdir}/efreet/%{arch_tag}
+%attr(755,root,root) %{_libdir}/efreet/%{arch_tag}/efreet_desktop_cache_create
+%attr(755,root,root) %{_libdir}/efreet/%{arch_tag}/efreet_icon_cache_create
 %{_datadir}/dbus-1/services/org.enlightenment.Efreet.service
 %{_datadir}/efreet
 
@@ -2855,6 +2935,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libemotion.so
 %{_includedir}/emotion-1
 %{_pkgconfigdir}/emotion.pc
+%{_libdir}/cmake/Emotion
 
 %if %{with static_libs}
 %files -n emotion-static
@@ -2865,20 +2946,18 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with gstreamer}
 %files -n emotion-decoder-gstreamer
 %defattr(644,root,root,755)
-%dir %{_libdir}/emotion/modules/gstreamer
-%dir %{_libdir}/emotion/modules/gstreamer/linux-gnu-*
-%attr(755,root,root) %{_libdir}/emotion/modules/gstreamer/linux-gnu-*/module.so
+%dir %{_libdir}/emotion/modules/gstreamer1
+%dir %{_libdir}/emotion/modules/gstreamer1/%{arch_tag}
+%attr(755,root,root) %{_libdir}/emotion/modules/gstreamer1/%{arch_tag}/module.so
 %endif
 
 %if %{with xine}
 %files -n emotion-decoder-xine
 %defattr(644,root,root,755)
 %dir %{_libdir}/emotion/modules/xine
-%dir %{_libdir}/emotion/modules/xine/linux-gnu-*
-%attr(755,root,root) %{_libdir}/emotion/modules/xine/linux-gnu-*/module.so
+%dir %{_libdir}/emotion/modules/xine/%{arch_tag}
+%attr(755,root,root) %{_libdir}/emotion/modules/xine/%{arch_tag}/module.so
 %endif
-
-#%files -n emotion-decoder-vlc ?
 
 %files -n eo
 %defattr(644,root,root,755)
@@ -2928,8 +3007,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ethumbd_client
 %dir %{_libdir}/ethumb_client
 %dir %{_libdir}/ethumb_client/utils
-%dir %{_libdir}/ethumb_client/utils/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ethumb_client/utils/linux-gnu-*/ethumbd_slave
+%dir %{_libdir}/ethumb_client/utils/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ethumb_client/utils/%{arch_tag}/ethumbd_slave
 %{_datadir}/dbus-1/services/org.enlightenment.Ethumb.service
 %{_datadir}/ethumb
 %{_datadir}/ethumb_client
@@ -2964,9 +3043,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -n ethumb-plugin-emotion
 %defattr(644,root,root,755)
 %dir %{_libdir}/ethumb/modules/emotion
-%dir %{_libdir}/ethumb/modules/emotion/linux-gnu-*
-%attr(755,root,root) %{_libdir}/ethumb/modules/emotion/linux-gnu-*/module.so
-%{_libdir}/ethumb/modules/emotion/linux-gnu-*/template.edj
+%dir %{_libdir}/ethumb/modules/emotion/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ethumb/modules/emotion/%{arch_tag}/module.so
+%{_libdir}/ethumb/modules/emotion/%{arch_tag}/template.edj
 
 %files -n evas
 %defattr(644,root,root,755)
@@ -2979,9 +3058,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/evas
 %dir %{_libdir}/evas/cserve2
 %dir %{_libdir}/evas/cserve2/bin
-%dir %{_libdir}/evas/cserve2/bin/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/cserve2/bin/linux-gnu-*/evas_cserve2
-%attr(755,root,root) %{_libdir}/evas/cserve2/bin/linux-gnu-*/evas_cserve2_slave
+%dir %{_libdir}/evas/cserve2/bin/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/cserve2/bin/%{arch_tag}/evas_cserve2
+%attr(755,root,root) %{_libdir}/evas/cserve2/bin/%{arch_tag}/evas_cserve2_slave
 %dir %{_libdir}/evas/modules
 %dir %{_libdir}/evas/modules/engines
 %dir %{_libdir}/evas/modules/loaders
@@ -3016,111 +3095,111 @@ rm -rf $RPM_BUILD_ROOT
 %files -n evas-engine-drm
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/engines/drm
-%dir %{_libdir}/evas/modules/engines/drm/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/engines/drm/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/engines/drm/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/engines/drm/%{arch_tag}/module.so
 %endif
 
 %if %{with fb}
 %files -n evas-engine-fb
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/engines/fb
-%dir %{_libdir}/evas/modules/engines/fb/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/engines/fb/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/engines/fb/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/engines/fb/%{arch_tag}/module.so
 %endif
 
 %if %{with sdl}
 %files -n evas-engine-gl_sdl
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/engines/gl_sdl
-%dir %{_libdir}/evas/modules/engines/gl_sdl/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/engines/gl_sdl/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/engines/gl_sdl/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/engines/gl_sdl/%{arch_tag}/module.so
 %endif
 
 %files -n evas-engine-gl_x11
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/engines/gl_x11
-%dir %{_libdir}/evas/modules/engines/gl_x11/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/engines/gl_x11/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/engines/gl_x11/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/engines/gl_x11/%{arch_tag}/module.so
 
 %files -n evas-engine-software_x11
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/engines/software_x11
-%dir %{_libdir}/evas/modules/engines/software_x11/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/engines/software_x11/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/engines/software_x11/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/engines/software_x11/%{arch_tag}/module.so
 
 %if %{with wayland}
 %files -n evas-engine-wayland_egl
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/engines/wayland_egl
-%dir %{_libdir}/evas/modules/engines/wayland_egl/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/engines/wayland_egl/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/engines/wayland_egl/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/engines/wayland_egl/%{arch_tag}/module.so
 
 %files -n evas-engine-wayland_shm
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/engines/wayland_shm
-%dir %{_libdir}/evas/modules/engines/wayland_shm/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/engines/wayland_shm/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/engines/wayland_shm/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/engines/wayland_shm/%{arch_tag}/module.so
 %endif
 
 %files -n evas-loader-gif
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/loaders/gif
-%dir %{_libdir}/evas/modules/loaders/gif/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/loaders/gif/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/loaders/gif/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/loaders/gif/%{arch_tag}/module.so
 
 %files -n evas-loader-jp2k
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/loaders/jp2k
-%dir %{_libdir}/evas/modules/loaders/jp2k/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/loaders/jp2k/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/loaders/jp2k/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/loaders/jp2k/%{arch_tag}/module.so
 
 %files -n evas-loader-jpeg
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/loaders/jpeg
-%dir %{_libdir}/evas/modules/loaders/jpeg/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/loaders/jpeg/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/loaders/jpeg/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/loaders/jpeg/%{arch_tag}/module.so
 
 %files -n evas-loader-png
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/loaders/png
-%dir %{_libdir}/evas/modules/loaders/png/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/loaders/png/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/loaders/png/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/loaders/png/%{arch_tag}/module.so
 
 %files -n evas-loader-tiff
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/loaders/tiff
-%dir %{_libdir}/evas/modules/loaders/tiff/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/loaders/tiff/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/loaders/tiff/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/loaders/tiff/%{arch_tag}/module.so
 
 %files -n evas-loader-webp
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/loaders/webp
-%dir %{_libdir}/evas/modules/loaders/webp/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/loaders/webp/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/loaders/webp/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/loaders/webp/%{arch_tag}/module.so
 
 %files -n evas-saver-jpeg
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/savers/jpeg
-%dir %{_libdir}/evas/modules/savers/jpeg/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/savers/jpeg/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/savers/jpeg/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/savers/jpeg/%{arch_tag}/module.so
 
 %files -n evas-saver-png
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/savers/png
-%dir %{_libdir}/evas/modules/savers/png/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/savers/png/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/savers/png/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/savers/png/%{arch_tag}/module.so
 
 %files -n evas-saver-tiff
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/savers/tiff
-%dir %{_libdir}/evas/modules/savers/tiff/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/savers/tiff/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/savers/tiff/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/savers/tiff/%{arch_tag}/module.so
 
 %files -n evas-saver-webp
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/savers/webp
-%dir %{_libdir}/evas/modules/savers/webp/linux-gnu-*
-%attr(755,root,root) %{_libdir}/evas/modules/savers/webp/linux-gnu-*/module.so
+%dir %{_libdir}/evas/modules/savers/webp/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/savers/webp/%{arch_tag}/module.so
 
 %files -n vim-addon-efl
 %defattr(644,root,root,755)
