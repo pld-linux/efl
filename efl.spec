@@ -17,7 +17,8 @@
 %bcond_without	scim		# SCIM input module
 %bcond_without	sdl		# SDL support
 %bcond_with	systemd		# systemd journal support in Eina, daemon support in Ecore
-%bcond_with	wayland		# Wayland display server support [broken?]
+%bcond_with	wayland		# Wayland display server support
+%bcond_with	wayland_egl	# Wayland display server support [only with GLES instead of GL]
 %bcond_with	xcb		# use XCB API instead of Xlib
 %bcond_without	xine		# Xine support
 %bcond_with	gnutls		# use GnuTLS as crypto library (default is OpenSSL)
@@ -26,12 +27,12 @@
 Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
-Version:	1.9.3
+Version:	1.9.5
 Release:	1
 License:	LGPL v2.1+, BSD
 Group:		Libraries
 Source0:	http://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
-# Source0-md5:	8e1c73f0c6731fe2bc9744b5d2b57780
+# Source0-md5:	d21e2518d4e9114dc733e86bd883fab2
 Patch0:		%{name}-pc.patch
 Patch1:		%{name}-wayland.patch
 URL:		https://trac.enlightenment.org/e/wiki/EFL
@@ -102,8 +103,8 @@ BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXtst-devel
 %endif
 %if %{with wayland}
-BuildRequires:	Mesa-libEGL-devel >= 7.10
-BuildRequires:	Mesa-libwayland-egl-devel >= 9.2.0
+%{?with_wayland_egl:BuildRequires:	Mesa-libEGL-devel >= 7.10}
+%{?with_wayland_egl:BuildRequires:	Mesa-libwayland-egl-devel >= 9.2.0}
 BuildRequires:	wayland-devel >= 1.3.0
 BuildRequires:	xorg-lib-libxkbcommon-devel >= 0.3.0
 %endif
@@ -3080,7 +3081,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/evas-software-buffer.pc
 %{_pkgconfigdir}/evas-software-x11.pc
 %if %{with wayland}
-%{_pkgconfigdir}/evas-wayland-egl.pc
+%{?with_wayland_egl:%{_pkgconfigdir}/evas-wayland-egl.pc}
 %{_pkgconfigdir}/evas-wayland-shm.pc
 %endif
 %{_libdir}/cmake/Evas
@@ -3128,11 +3129,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/evas/modules/engines/software_x11/%{arch_tag}/module.so
 
 %if %{with wayland}
+%if %{with wayland_egl}
 %files -n evas-engine-wayland_egl
 %defattr(644,root,root,755)
 %dir %{_libdir}/evas/modules/engines/wayland_egl
 %dir %{_libdir}/evas/modules/engines/wayland_egl/%{arch_tag}
 %attr(755,root,root) %{_libdir}/evas/modules/engines/wayland_egl/%{arch_tag}/module.so
+%endif
 
 %files -n evas-engine-wayland_shm
 %defattr(644,root,root,755)
