@@ -27,14 +27,15 @@
 Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
-Version:	1.9.5
+Version:	1.10.0
 Release:	1
-License:	LGPL v2.1+, BSD
+License:	LGPL v2.1+, BSD (depends on component)
 Group:		Libraries
 Source0:	http://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
-# Source0-md5:	d21e2518d4e9114dc733e86bd883fab2
+# Source0-md5:	588dfe1957530c801c5599dfc19a9840
 Patch0:		%{name}-pc.patch
 Patch1:		%{name}-wayland.patch
+Patch2:		%{name}-am.patch
 URL:		https://trac.enlightenment.org/e/wiki/EFL
 %{?with_egl:BuildRequires:	EGL-devel}
 BuildRequires:	OpenGL-GLX-devel
@@ -58,11 +59,13 @@ BuildRequires:	gstreamer-plugins-base-devel >= 1.0
 %endif
 %{?with_harfbuzz:BuildRequires:	harfbuzz-devel >= 0.9.0}
 %{?with_ibus:BuildRequires:	ibus-devel >= 1.4}
+%{?with_drm:BuildRequires:	libdrm-devel >= 2.4}
 %{?with_gnutls:BuildRequires:	libgcrypt-devel >= 1.2.0}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libmount-devel >= 2.18.0
 BuildRequires:	libpng-devel >= 1.2.10
 BuildRequires:	libsndfile-devel
+BuildRequires:	libstdc++-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libwebp-devel
 %{!?with_luajit:BuildRequires:	lua51 >= 5.1.0}
@@ -78,8 +81,12 @@ BuildRequires:	pulseaudio-devel
 %{?with_scim:BuildRequires:	scim-devel}
 %{?with_systemd:BuildRequires:	systemd-devel >= 1:192}
 BuildRequires:	tslib-devel
+BuildRequires:	udev-devel >= 1:148
 %{?with_xine:BuildRequires:	xine-lib-devel >= 2:1.1.1}
 %{?with_gesture:BuildRequires:	xorg-lib-libXgesture-devel}
+%if %{with drm} || %{with wayland}
+BuildRequires:	xorg-lib-libxkbcommon-devel >= 0.3.0
+%endif
 BuildRequires:	zlib-devel >= 1.2.3
 %if %{with xcb}
 BuildRequires:	libxcb-devel
@@ -106,7 +113,6 @@ BuildRequires:	xorg-lib-libXtst-devel
 %{?with_wayland_egl:BuildRequires:	Mesa-libEGL-devel >= 7.10}
 %{?with_wayland_egl:BuildRequires:	Mesa-libwayland-egl-devel >= 9.2.0}
 BuildRequires:	wayland-devel >= 1.3.0
-BuildRequires:	xorg-lib-libxkbcommon-devel >= 0.3.0
 %endif
 # svg tests - exist in m4, but not called from configure
 #BuildRequires:	esvg-devel >= 0.0.18
@@ -114,7 +120,7 @@ BuildRequires:	xorg-lib-libxkbcommon-devel >= 0.3.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # it used to be linux-gnu-ARCH before...
-%define		arch_tag	v-1.9
+%define		arch_tag	v-1.10
 
 %description
 EFL - The Enlightenment Foundation Libraries.
@@ -124,8 +130,8 @@ EFL (Enlightenment Foundation Libraries) - biblioteki tworzące
 Enlightment.
 
 %package -n ecore
-Summary:	Enlightened Core X interface library
-Summary(pl.UTF-8):	Biblioteka interfejsu X Enlightened Core
+Summary:	Enlightened Core event abstraction library
+Summary(pl.UTF-8):	Biblioteka interfejsu abstrakcji zdarzeń Enlightened Core
 License:	BSD
 Group:		Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Ecore
@@ -187,6 +193,21 @@ Static Ecore library.
 
 %description -n ecore-static -l pl.UTF-8
 Statyczna biblioteka Ecore.
+
+%package -n ecore-cxx-devel
+Summary:	C++ API for Ecore library
+Summary(pl.UTF_8):	API języka C++ do biblioteki Ecore
+Group:		Development/Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Ecore
+Requires:	ecore-devel = %{version}-%{release}
+Requires:	eina-cxx-devel = %{version}-%{release}
+Requires:	eo-cxx-devel = %{version}-%{release}
+
+%description -n ecore-cxx-devel
+C++ API for Ecore library.
+
+%description -n ecore-cxx-devel -l pl.UTF-8
+API języka C++ do biblioteki Ecore.
 
 %package -n ecore-system-systemd
 Summary:	systemd system module for Ecore library
@@ -264,6 +285,20 @@ Static Ecore Audio library.
 
 %description -n ecore-audio-static -l pl.UTF-8
 Statyczna biblioteka dźwięku Ecore Audio.
+
+%package -n ecore-audio-cxx-devel
+Summary:	C++ API for Ecore Audio library
+Summary(pl.UTF_8):	API języka C++ do biblioteki Ecore Audio
+Group:		Development/Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Ecore
+Requires:	ecore-audio-devel = %{version}-%{release}
+Requires:	eo-cxx-devel = %{version}-%{release}
+
+%description -n ecore-audio-cxx-devel
+C++ API for Ecore Audio library.
+
+%description -n ecore-audio-cxx-devel -l pl.UTF-8
+API języka C++ do biblioteki Ecore Audio.
 
 %package -n ecore-avahi
 Summary:	Ecore Avahi integration library
@@ -362,6 +397,56 @@ Static Ecore Con(nection) library.
 
 %description -n ecore-con-static -l pl.UTF-8
 Statyczna biblioteka połączeń Ecore Con.
+
+%package -n ecore-drm
+Summary:	Ecore DRM library
+Summary(pl.UTF-8):	Biblioteka Ecore DRM
+License:	BSD
+Group:		Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Ecore
+Requires:	ecore-input = %{version}-%{release}
+Requires:	libdrm >= 2.4
+Requires:	udev-libs >= 1:148
+Requires:	xorg-lib-libxkbcommon >= 0.3.0
+
+%description -n ecore-drm
+Ecore DRM library.
+
+%description -n ecore-drm -l pl.UTF-8
+Biblioteka Ecore DRM.
+
+%package -n ecore-drm-devel
+Summary:	Header file for Ecore DRM library
+Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore DRM
+License:	BSD
+Group:		Development/Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Ecore
+Requires:	ecore-drm = %{version}-%{release}
+Requires:	ecore-input-devel = %{version}-%{release}
+Requires:	libdrm-devel >= 2.4
+Requires:	udev-devel >= 1:148
+Requires:	xorg-lib-libxkbcommon-devel >= 0.3.0
+
+%description -n ecore-drm-devel
+Header file for Ecore DRM (frame buffer system functions) library.
+
+%description -n ecore-drm-devel -l pl.UTF-8
+Plik nagłówkowy biblioteki Ecore DRM (funkcji systemowych
+framebuffera).
+
+%package -n ecore-drm-static
+Summary:	Static Ecore DRM library
+Summary(pl.UTF-8):	Statyczna biblioteka Ecore DRM
+License:	BSD
+Group:		Development/Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Ecore
+Requires:	ecore-drm-devel = %{version}-%{release}
+
+%description -n ecore-drm-static
+Static Ecore DRM (frame buffer system functions) library.
+
+%description -n ecore-drm-static -l pl.UTF-8
+Statyczna biblioteka Ecore DRM (funkcji systemowych framebuffera).
 
 %package -n ecore-evas
 Summary:	Ecore Evas library
@@ -1052,7 +1137,7 @@ Statyczna biblioteka Ecore X (funkcji do obsługi X Window System).
 %package -n edje
 Summary:	Complex Graphical Design/Layout Engine
 Summary(pl.UTF-8):	Złożony silnik graficznego projektowania/planowania
-License:	BSD
+License:	BSD (library), GPL v2 (epp)
 Group:		Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Edje
 Requires:	edje-libs = %{version}-%{release}
@@ -1153,6 +1238,20 @@ Static Edje library.
 %description -n edje-static -l pl.UTF-8
 Statyczna biblioteka Edje.
 
+%package -n edje-cxx-devel
+Summary:	C++ API for Edje library
+Summary(pl.UTF_8):	API języka C++ do biblioteki Edje
+Group:		Development/Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Edje
+Requires:	edje-devel = %{version}-%{release}
+Requires:	eo-cxx-devel = %{version}-%{release}
+
+%description -n edje-cxx-devel
+C++ API for Edje library.
+
+%description -n edje-cxx-devel -l pl.UTF-8
+API języka C++ do biblioteki Edje.
+
 %package -n edje-module-emotion
 Summary:	Emotion module for Edje library
 Summary(pl.UTF-8):	Moduł Emotion dla biblioteki Edje
@@ -1239,6 +1338,21 @@ Static Eet library.
 
 %description -n eet-static -l pl.UTF-8
 Statyczna biblioteka Eet.
+
+%package -n eet-cxx-devel
+Summary:	C++ API for Eet library
+Summary(pl.UTF_8):	API języka C++ do biblioteki Eet
+Group:		Development/Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Eet
+Requires:	eet-devel = %{version}-%{release}
+Requires:	eina-cxx-devel = %{version}-%{release}
+Requires:	eo-cxx-devel = %{version}-%{release}
+
+%description -n eet-cxx-devel
+C++ API for Eet library.
+
+%description -n eet-cxx-devel -l pl.UTF-8
+API języka C++ do biblioteki Eet.
 
 %package -n eeze
 Summary:	Library for manipulating devices through udev
@@ -1441,6 +1555,20 @@ Static Eina library.
 
 %description -n eina-static -l pl.UTF-8
 Statyczna biblioteka Eina.
+
+%package -n eina-cxx-devel
+Summary:	C++ API for Eina library
+Summary(pl.UTF_8):	API języka C++ do biblioteki Eina
+Group:		Development/Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Eina
+Requires:	eina-devel = %{version}-%{release}
+Requires:	libstdc++-devel
+
+%description -n eina-cxx-devel
+C++ API for Eina library.
+
+%description -n eina-cxx-devel -l pl.UTF-8
+API języka C++ do biblioteki Eina.
 
 %package -n eio
 Summary:	Enlightenment Input Output Library
@@ -1712,6 +1840,19 @@ Static Eo library.
 %description -n eo-static -l pl.UTF-8
 Statyczna biblioteka Eo.
 
+%package -n eo-cxx-devel
+Summary:	C++ API for Eo library
+Summary(pl.UTF_8):	API języka C++ do biblioteki Eo
+Group:		Development/Libraries
+Requires:	eina-cxx-devel = %{version}-%{release}
+Requires:	eo-devel = %{version}-%{release}
+
+%description -n eo-cxx-devel
+C++ API for Eo library.
+
+%description -n eo-cxx-devel -l pl.UTF-8
+API języka C++ do biblioteki Eo.
+
 %package -n eo-gdb
 Summary:	GDB Python support scripts for Eo types
 Summary(pl.UTF-8):	Skrypty Pythona do obsługi typów Eo w GDB
@@ -1724,6 +1865,60 @@ GDB Python support scripts for Eo types.
 
 %description -n eo-gdb -l pl.UTF-8
 Skrypty Pythona do obsługi typów Eo w GDB.
+
+%package -n eolian
+Summary:	EFL .eo parser and code generator library
+Summary(pl.UTF-8):	Biblioteka EFL do analizy .eo i generowania kodu
+License:	BSD
+Group:		Libraries
+Requires:	eina = %{version}-%{release}
+
+%description -n eolian
+Eolian is an EFL's .eo parser and code generator.
+
+%description -n eolian -l pl.UTF-8
+Eolian to analizator .eo i generator kodu EFL.
+
+%package -n eolian-devel
+Summary:	Header files for Eolian library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Eolian
+License:	BSD
+Group:		Development/Libraries
+Requires:	eina-devel = %{version}-%{release}
+Requires:	eolian = %{version}-%{release}
+
+%description -n eolian-devel
+Header files for Eolian library.
+
+%description -n eolian-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki Eolian.
+
+%package -n eolian-static
+Summary:	Static Eolian library
+Summary(pl.UTF-8):	Statyczna biblioteka Eolian
+License:	BSD
+Group:		Development/Libraries
+Requires:	eolian-devel = %{version}-%{release}
+
+%description -n eolian-static
+Static Eolian library.
+
+%description -n eolian-static -l pl.UTF-8
+Statyczna biblioteka Eolian.
+
+%package -n eolian-cxx-devel
+Summary:	C++ API for Eolian library
+Summary(pl.UTF_8):	API języka C++ do biblioteki Eolian
+Group:		Development/Libraries
+Requires:	eo-devel = %{version}-%{release}
+Requires:	eolian-devel = %{version}-%{release}
+Requires:	libstdc++-devel = %{version}-%{release}
+
+%description -n eolian-cxx-devel
+C++ API for Eolian library.
+
+%description -n eolian-cxx-devel -l pl.UTF-8
+API języka C++ do biblioteki Eolian.
 
 %package -n ephysics
 Summary:	EPhysics - wrapper for physics engine
@@ -1939,6 +2134,20 @@ Static Evas library.
 
 %description -n evas-static -l pl.UTF-8
 Statyczna biblioteka Evas.
+
+%package -n evas-cxx-devel
+Summary:	C++ API for Evas library
+Summary(pl.UTF_8):	API języka C++ do biblioteki Evas
+Group:		Development/Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Evas
+Requires:	eo-cxx-devel = %{version}-%{release}
+Requires:	evas-devel = %{version}-%{release}
+
+%description -n evas-cxx-devel
+C++ API for Evas library.
+
+%description -n evas-cxx-devel -l pl.UTF-8
+API języka C++ do biblioteki Evas.
 
 ## EVAS MODULES
 # engines:
@@ -2205,6 +2414,7 @@ Obsługa składni EDC dla Vima.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__libtoolize}
@@ -2284,6 +2494,9 @@ rm -rf $RPM_BUILD_ROOT
 %post	-n ecore-con -p /sbin/ldconfig
 %postun	-n ecore-con -p /sbin/ldconfig
 
+%post	-n ecore-drm -p /sbin/ldconfig
+%postun	-n ecore-drm -p /sbin/ldconfig
+
 %post	-n ecore-evas -p /sbin/ldconfig
 %postun	-n ecore-evas -p /sbin/ldconfig
 
@@ -2347,6 +2560,9 @@ rm -rf $RPM_BUILD_ROOT
 %post	-n eo -p /sbin/ldconfig
 %postun	-n eo -p /sbin/ldconfig
 
+%post	-n eolian -p /sbin/ldconfig
+%postun	-n eolian -p /sbin/ldconfig
+
 %post	-n ephysics -p /sbin/ldconfig
 %postun	-n ephysics -p /sbin/ldconfig
 
@@ -2376,6 +2592,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libecore.a
 %endif
+
+%files -n ecore-cxx-devel
+%defattr(644,root,root,755)
+%{_includedir}/ecore-cxx-1
+%{_pkgconfigdir}/ecore-cxx.pc
+%{_libdir}/cmake/EcoreCxx
 
 %if %{with systemd}
 %files -n ecore-system-systemd
@@ -2407,6 +2629,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libecore_audio.a
 %endif
+
+%files -n ecore-audio-cxx-devel
+%defattr(644,root,root,755)
+%{_includedir}/ecore-audio-cxx-1
+%{_pkgconfigdir}/ecore-audio-cxx.pc
 
 %files -n ecore-avahi
 %defattr(644,root,root,755)
@@ -2442,8 +2669,30 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libecore_con.a
 %endif
 
+%files -n ecore-drm
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libecore_drm.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libecore_drm.so.1
+%dir %{_libdir}/ecore_drm
+%dir %{_libdir}/ecore_drm/bin
+%dir %{_libdir}/ecore_drm/bin/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore_drm/bin/%{arch_tag}/ecore_drm_launch
+
+%files -n ecore-drm-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libecore_drm.so
+%{_includedir}/ecore-drm-1
+%{_pkgconfigdir}/ecore-drm.pc
+
+%if %{with static_libs}
+%files -n ecore-drm-static
+%defattr(644,root,root,755)
+%{_libdir}/libecore_drm.a
+%endif
+
 %files -n ecore-evas
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/ecore_evas_convert
 %attr(755,root,root) %{_libdir}/libecore_evas.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libecore_evas.so.1
 %dir %{_libdir}/ecore_evas
@@ -2751,6 +3000,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libedje.a
 %endif
 
+%files -n edje-cxx-devel
+%defattr(644,root,root,755)
+%{_includedir}/edje-cxx-1
+%{_pkgconfigdir}/edje-cxx.pc
+
 %files -n edje-module-emotion
 %defattr(644,root,root,755)
 %dir %{_libdir}/edje/modules/emotion
@@ -2760,6 +3014,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n eet
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/eet
+%attr(755,root,root) %{_bindir}/vieet
 %attr(755,root,root) %{_libdir}/libeet.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libeet.so.1
 
@@ -2775,6 +3030,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libeet.a
 %endif
+
+%files -n eet-cxx-devel
+%defattr(644,root,root,755)
+%{_includedir}/eet-cxx-1
+%{_pkgconfigdir}/eet-cxx.pc
+%{_libdir}/cmake/EetCxx
 
 %files -n eeze
 %defattr(644,root,root,755)
@@ -2815,6 +3076,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/efreet/%{arch_tag}
 %attr(755,root,root) %{_libdir}/efreet/%{arch_tag}/efreet_desktop_cache_create
 %attr(755,root,root) %{_libdir}/efreet/%{arch_tag}/efreet_icon_cache_create
+%if %{with systemd}
+%{systemduserunitdir}/efreet.service
+%endif
 %{_datadir}/dbus-1/services/org.enlightenment.Efreet.service
 %{_datadir}/efreet
 
@@ -2848,7 +3112,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n eina
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README
+%doc AUTHORS COMPLIANCE COPYING ChangeLog NEWS README licenses/COPYING.{BSD,SMALL}
 %attr(755,root,root) %{_libdir}/libeina.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libeina.so.1
 
@@ -2866,6 +3130,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libeina.a
 %endif
+
+%files -n eina-cxx-devel
+%defattr(644,root,root,755)
+%{_includedir}/eina-cxx-1
+%{_pkgconfigdir}/eina-cxx.pc
+%{_libdir}/cmake/EinaCxx
 
 %files -n eio
 %defattr(644,root,root,755)
@@ -2978,11 +3248,48 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libeo.a
 %endif
 
+%files -n eo-cxx-devel
+%defattr(644,root,root,755)
+%{_includedir}/eo-cxx-1
+%{_pkgconfigdir}/eo-cxx.pc
+%{_libdir}/cmake/EoCxx
+
 %files -n eo-gdb
 %defattr(644,root,root,755)
 %dir %{_datadir}/eo
 %{_datadir}/eo/gdb
 %{_datadir}/gdb/auto-load/usr/%{_lib}/libeo.so.%{version}-gdb.py
+
+%files -n eolian
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/eolian_cxx
+%attr(755,root,root) %{_bindir}/eolian_gen
+%attr(755,root,root) %{_libdir}/libeolian.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libeolian.so.1
+%dir %{_datadir}/eolian
+%dir %{_datadir}/eolian/include
+# package everything here or per-library split?
+%{_datadir}/eolian/include/ecore-1
+%{_datadir}/eolian/include/edje-1
+%{_datadir}/eolian/include/eo-1
+%{_datadir}/eolian/include/evas-1
+
+%files -n eolian-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libeolian.so
+%{_includedir}/eolian-1
+%{_pkgconfigdir}/eolian.pc
+%{_libdir}/cmake/Eolian
+
+%files -n eolian-static
+%defattr(644,root,root,755)
+%{_libdir}/libeolian.a
+
+%files -n eolian-cxx-devel
+%defattr(644,root,root,755)
+%{_includedir}/eolian-cxx-1
+%{_pkgconfigdir}/eolian-cxx.pc
+%{_libdir}/cmake/EolianCxx
 
 %files -n ephysics
 %defattr(644,root,root,755)
@@ -3010,6 +3317,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/ethumb_client/utils
 %dir %{_libdir}/ethumb_client/utils/%{arch_tag}
 %attr(755,root,root) %{_libdir}/ethumb_client/utils/%{arch_tag}/ethumbd_slave
+%if %{with systemd}
+%{systemduserunitdir}/ethumb.service
+%endif
 %{_datadir}/dbus-1/services/org.enlightenment.Ethumb.service
 %{_datadir}/ethumb
 %{_datadir}/ethumb_client
@@ -3091,6 +3401,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libevas.a
 %endif
+
+%files -n evas-cxx-devel
+%defattr(644,root,root,755)
+%{_includedir}/evas-cxx-1
+%{_pkgconfigdir}/evas-cxx.pc
+%{_libdir}/cmake/EvasCxx
 
 %if %{with drm}
 %files -n evas-engine-drm
