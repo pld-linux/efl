@@ -455,6 +455,7 @@ License:	BSD
 Group:		Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Ecore
 Requires:	ecore = %{version}-%{release}
+%{?with_drm:Requires:	ecore = %{version}-%{release}}
 Requires:	ecore-input = %{version}-%{release}
 Requires:	ecore-input-evas = %{version}-%{release}
 Requires:	evas = %{version}-%{release}
@@ -472,6 +473,7 @@ License:	BSD
 Group:		Development/Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Ecore
 Requires:	ecore-devel = %{version}-%{release}
+%{?with_drm:Requires:	ecore-drm = %{version}-%{release}}
 Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-input-devel = %{version}-%{release}
 Requires:	ecore-input-evas-devel = %{version}-%{release}
