@@ -197,7 +197,7 @@ Statyczna biblioteka Ecore.
 
 %package -n ecore-cxx-devel
 Summary:	C++ API for Ecore library
-Summary(pl.UTF_8):	API języka C++ do biblioteki Ecore
+Summary(pl.UTF-8):	API języka C++ do biblioteki Ecore
 Group:		Development/Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Ecore
 Requires:	ecore-devel = %{version}-%{release}
@@ -289,7 +289,7 @@ Statyczna biblioteka dźwięku Ecore Audio.
 
 %package -n ecore-audio-cxx-devel
 Summary:	C++ API for Ecore Audio library
-Summary(pl.UTF_8):	API języka C++ do biblioteki Ecore Audio
+Summary(pl.UTF-8):	API języka C++ do biblioteki Ecore Audio
 Group:		Development/Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Ecore
 Requires:	ecore-audio-devel = %{version}-%{release}
@@ -1243,7 +1243,7 @@ Statyczna biblioteka Edje.
 
 %package -n edje-cxx-devel
 Summary:	C++ API for Edje library
-Summary(pl.UTF_8):	API języka C++ do biblioteki Edje
+Summary(pl.UTF-8):	API języka C++ do biblioteki Edje
 Group:		Development/Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Edje
 Requires:	edje-devel = %{version}-%{release}
@@ -1344,7 +1344,7 @@ Statyczna biblioteka Eet.
 
 %package -n eet-cxx-devel
 Summary:	C++ API for Eet library
-Summary(pl.UTF_8):	API języka C++ do biblioteki Eet
+Summary(pl.UTF-8):	API języka C++ do biblioteki Eet
 Group:		Development/Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Eet
 Requires:	eet-devel = %{version}-%{release}
@@ -1561,7 +1561,7 @@ Statyczna biblioteka Eina.
 
 %package -n eina-cxx-devel
 Summary:	C++ API for Eina library
-Summary(pl.UTF_8):	API języka C++ do biblioteki Eina
+Summary(pl.UTF-8):	API języka C++ do biblioteki Eina
 Group:		Development/Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Eina
 Requires:	eina-devel = %{version}-%{release}
@@ -1845,7 +1845,7 @@ Statyczna biblioteka Eo.
 
 %package -n eo-cxx-devel
 Summary:	C++ API for Eo library
-Summary(pl.UTF_8):	API języka C++ do biblioteki Eo
+Summary(pl.UTF-8):	API języka C++ do biblioteki Eo
 Group:		Development/Libraries
 Requires:	eina-cxx-devel = %{version}-%{release}
 Requires:	eo-devel = %{version}-%{release}
@@ -1911,7 +1911,7 @@ Statyczna biblioteka Eolian.
 
 %package -n eolian-cxx-devel
 Summary:	C++ API for Eolian library
-Summary(pl.UTF_8):	API języka C++ do biblioteki Eolian
+Summary(pl.UTF-8):	API języka C++ do biblioteki Eolian
 Group:		Development/Libraries
 Requires:	eo-devel = %{version}-%{release}
 Requires:	eolian-devel = %{version}-%{release}
@@ -2140,7 +2140,7 @@ Statyczna biblioteka Evas.
 
 %package -n evas-cxx-devel
 Summary:	C++ API for Evas library
-Summary(pl.UTF_8):	API języka C++ do biblioteki Evas
+Summary(pl.UTF-8):	API języka C++ do biblioteki Evas
 Group:		Development/Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Evas
 Requires:	eo-cxx-devel = %{version}-%{release}
