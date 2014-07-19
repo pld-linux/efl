@@ -27,16 +27,15 @@
 Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
-Version:	1.10.1
+Version:	1.10.2
 Release:	1
 License:	LGPL v2.1+, BSD (depends on component)
 Group:		Libraries
 Source0:	http://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
-# Source0-md5:	eadc55e41602b3b34d6b9b0e0b12826a
+# Source0-md5:	a99ea8c50537c4362c7e380656af20d8
 Patch0:		%{name}-pc.patch
 Patch1:		%{name}-wayland.patch
 Patch2:		%{name}-am.patch
-Patch3:		%{name}-gif.patch
 URL:		https://trac.enlightenment.org/e/wiki/EFL
 %{?with_egl:BuildRequires:	EGL-devel}
 BuildRequires:	OpenGL-GLX-devel
@@ -2418,7 +2417,6 @@ Obsługa składni EDC dla Vima.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 %{__libtoolize}
