@@ -49,7 +49,7 @@ BuildRequires:	doxygen
 BuildRequires:	fontconfig-devel >= 2.5.0
 BuildRequires:	freetype-devel >= 1:2.2
 BuildRequires:	fribidi-devel >= 0.19.2
-BuildRequires:	gettext-devel >= 0.17
+BuildRequires:	gettext-tools >= 0.17
 BuildRequires:	giflib-devel
 BuildRequires:	glib2-devel >= 2.0
 %{?with_gnutls:BuildRequires:	gnutls-devel >= 2.12.16}
