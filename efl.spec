@@ -27,16 +27,16 @@
 Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
-Version:	1.10.2
+Version:	1.10.3
 Release:	1
 License:	LGPL v2.1+, BSD (depends on component)
 Group:		Libraries
-Source0:	http://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
-# Source0-md5:	a99ea8c50537c4362c7e380656af20d8
+Source0:	https://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
+# Source0-md5:	6b3d88134d3d27dd9b41a4a46d718a19
 Patch0:		%{name}-pc.patch
 Patch1:		%{name}-wayland.patch
 Patch2:		%{name}-am.patch
-URL:		https://trac.enlightenment.org/e/wiki/EFL
+URL:		https://www.enlightenment.org/docs/efl/start
 %{?with_egl:BuildRequires:	EGL-devel}
 BuildRequires:	OpenGL-GLX-devel
 %{?with_sdl:BuildRequires:	SDL-devel >= 1.2.0}
