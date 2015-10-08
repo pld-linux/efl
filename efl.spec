@@ -24,6 +24,9 @@
 %bcond_with	gnutls		# use GnuTLS as crypto library (default is OpenSSL)
 %bcond_without	static_libs	# static libraries build
 #
+%ifnarch %{ix86} %{x8664} arm mips ppc
+%undefine	with_luajit
+%endif
 Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
