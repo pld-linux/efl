@@ -31,7 +31,7 @@ Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
 Version:	1.10.3
-Release:	1
+Release:	2
 License:	LGPL v2.1+, BSD (depends on component)
 Group:		Libraries
 Source0:	https://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
@@ -1917,7 +1917,7 @@ Summary(pl.UTF-8):	API języka C++ do biblioteki Eolian
 Group:		Development/Libraries
 Requires:	eo-devel = %{version}-%{release}
 Requires:	eolian-devel = %{version}-%{release}
-Requires:	libstdc++-devel = %{version}-%{release}
+Requires:	libstdc++-devel
 
 %description -n eolian-cxx-devel
 C++ API for Eolian library.
