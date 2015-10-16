@@ -17,7 +17,7 @@
 %bcond_without	scim		# SCIM input module
 %bcond_without	sdl		# SDL support
 %bcond_with	systemd		# systemd journal support in Eina, daemon support in Ecore
-%bcond_with	wayland		# Wayland display server support
+%bcond_without	wayland		# Wayland display server support
 %bcond_with	wayland_egl	# Wayland display server support [only with GLES instead of GL]
 %bcond_with	xcb		# use XCB API instead of Xlib
 %bcond_without	xine		# Xine support
@@ -31,7 +31,7 @@ Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
 Version:	1.10.3
-Release:	2
+Release:	3
 License:	LGPL v2.1+, BSD (depends on component)
 Group:		Libraries
 Source0:	https://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
