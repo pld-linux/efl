@@ -31,7 +31,7 @@ Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
 Version:	1.10.3
-Release:	3
+Release:	4
 License:	LGPL v2.1+, BSD (depends on component)
 Group:		Libraries
 Source0:	https://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
@@ -913,6 +913,7 @@ License:	BSD
 Group:		Development/Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Ecore
 Requires:	ecore-input-devel = %{version}-%{release}
+Requires:	ecore-input-evas = %{version}-%{release}
 Requires:	evas-devel = %{version}-%{release}
 
 %description -n ecore-input-evas-devel
@@ -1002,6 +1003,7 @@ License:	BSD
 Group:		Development/Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Ecore
 Requires:	ecore-input-devel = %{version}-%{release}
+Requires:	ecore-sdl = %{version}-%{release}
 Requires:	SDL-devel >= 1.2.0
 
 %description -n ecore-sdl-devel
@@ -1045,6 +1047,7 @@ Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore Wayland
 Group:		Development/Libraries
 Requires:	ecore-devel = %{version}-%{release}
 Requires:	ecore-input-devel = %{version}-%{release}
+Requires:	ecore-wayland = %{version}-%{release}
 Requires:	wayland-devel >= 1.3.0
 Requires:	xorg-lib-libxkbcommon-devel >= 0.3.0
 
