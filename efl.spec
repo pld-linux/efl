@@ -31,7 +31,7 @@ Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
 Version:	1.10.3
-Release:	4
+Release:	5
 License:	LGPL v2.1+, BSD (depends on component)
 Group:		Libraries
 Source0:	https://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
@@ -576,7 +576,9 @@ Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-input-evas = %{version}-%{release}
 Requires:	ecore-wayland = %{version}-%{release}
 # ?
+%if %{with wayland_egl}
 Requires:	evas-engine-wayland_egl = %{version}-%{release}
+%endif
 Requires:	evas-engine-wayland_shm = %{version}-%{release}
 
 %description -n ecore-evas-engine-wayland
@@ -1733,6 +1735,7 @@ Requires:	eio = %{version}-%{release}
 Requires:	evas = %{version}-%{release}
 # for edje module
 Requires:	edje-libs = %{version}-%{release}
+Obsoletes:	emotion-decoder-vlc
 
 %description -n emotion
 Emotion is a library to easily integrate media playback into EFL
