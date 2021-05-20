@@ -113,9 +113,12 @@ BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXtst-devel
 %endif
 %if %{with wayland}
-%{?with_wayland_egl:BuildRequires:	Mesa-libEGL-devel >= 7.10}
-%{?with_wayland_egl:BuildRequires:	Mesa-libwayland-egl-devel >= 9.2.0}
 BuildRequires:	wayland-devel >= 1.3.0
+%if %{with wayland_egl}
+BuildRequires:	EGL-devel
+BuildRequires:	pkgconfig(egl) >= 7.10
+BuildRequires:	wayland-egl-devel >= 9.2.0
+%endif
 %endif
 # svg tests - exist in m4, but not called from configure
 #BuildRequires:	esvg-devel >= 0.0.18
@@ -2125,6 +2128,11 @@ Requires:	fontconfig-devel >= 2.5.0
 Requires:	freetype-devel >= 1:2.2
 Requires:	fribidi-devel >= 0.19.2
 Requires:	harfbuzz-devel >= 0.9.0
+%if %{with wayland_egl}
+Requires:	EGL-devel
+Requires:	pkgconfig(egl) >= 7.10
+Requires:	wayland-egl-devel >= 9.2.0
+%endif
 
 %description -n evas-devel
 Header files for Evas.
@@ -2240,9 +2248,8 @@ Summary(pl.UTF-8):	Moduł silnika renderującego Wayland EGL dla Evas
 License:	BSD
 Group:		Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Evas
-Requires:	Mesa-libEGL-devel >= 7.10
-Requires:	Mesa-libwayland-egl-devel >= 9.2.0
 Requires:	evas = %{version}-%{release}
+Requires:	wayland-egl >= 9.2.0
 
 %description -n evas-engine-wayland_egl
 Wayland EGL rendering engine module for Evas.
