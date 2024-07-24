@@ -144,16 +144,16 @@ URL:		http://trac.enlightenment.org/e/wiki/Ecore
 Requires:	eina = %{version}-%{release}
 Requires:	eo = %{version}-%{release}
 %{?with_systemd:Requires:	systemd-libs >= 1:192}
-Obsoletes:	ecore-config
-Obsoletes:	ecore-config-devel
-Obsoletes:	ecore-config-static
-Obsoletes:	ecore-directfb
-Obsoletes:	ecore-directfb-devel
-Obsoletes:	ecore-directfb-static
-Obsoletes:	ecore-desktop
-Obsoletes:	ecore-job
-Obsoletes:	ecore-libs
-Obsoletes:	ecore-txt
+Obsoletes:	ecore-config < 1.8
+Obsoletes:	ecore-config-devel < 1.8
+Obsoletes:	ecore-config-static < 1.8
+Obsoletes:	ecore-directfb < 1.8
+Obsoletes:	ecore-directfb-devel < 1.8
+Obsoletes:	ecore-directfb-static < 1.8
+Obsoletes:	ecore-desktop < 1
+Obsoletes:	ecore-job < 1
+Obsoletes:	ecore-libs < 0.9.9.036-2
+Obsoletes:	ecore-txt < 1
 
 %description -n ecore
 Ecore is the event/X abstraction layer that makes doing selections,
@@ -750,7 +750,7 @@ Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-imf = %{version}-%{release}
 Requires:	ecore-x = %{version}-%{release}
 Requires:	ibus >= 1.4
-Obsoletes:	ecore-module-ibus
+Obsoletes:	ecore-module-ibus < 1.8
 
 %description -n ecore-imf-module-ibus
 Ecore IMF IBus input method module.
@@ -768,7 +768,7 @@ Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-imf = %{version}-%{release}
 Requires:	ecore-x = %{version}-%{release}
 Requires:	scim
-Obsoletes:	ecore-module-scim
+Obsoletes:	ecore-module-scim < 1.8
 
 %description -n ecore-imf-module-scim
 Ecore IMF SCIM input method module.
@@ -800,7 +800,7 @@ Group:		Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Ecore
 Requires:	ecore-imf = %{version}-%{release}
 Requires:	ecore-x = %{version}-%{release}
-Obsoletes:	ecore-module-xim
+Obsoletes:	ecore-module-xim < 1.8
 
 %description -n ecore-imf-module-xim
 Ecore IMF XIM input method module.
@@ -1377,7 +1377,7 @@ Requires:	ecore-file = %{version}-%{release}
 Requires:	eet = %{version}-%{release}
 Requires:	libmount >= 2.18.0
 Requires:	udev-libs >= 1:148
-Obsoletes:	enlightenment-utils-eeze
+Obsoletes:	enlightenment-utils-eeze < 1.7
 
 %description -n eeze
 Eeze is a library for manipulating devices through udev with a simple
@@ -1738,7 +1738,7 @@ Requires:	eio = %{version}-%{release}
 Requires:	evas = %{version}-%{release}
 # for edje module
 Requires:	edje-libs = %{version}-%{release}
-Obsoletes:	emotion-decoder-vlc
+Obsoletes:	emotion-decoder-vlc < 1.8
 
 %description -n emotion
 Emotion is a library to easily integrate media playback into EFL
@@ -1983,7 +1983,7 @@ Group:		Applications/Graphics
 URL:		http://trac.enlightenment.org/e/wiki/Ethumb
 Requires:	dbus
 Requires:	ethumb-libs = %{version}-%{release}
-Obsoletes:	ethumb-plugin-epdf
+Obsoletes:	ethumb-plugin-epdf < 1.8
 
 %description -n ethumb
 Ethumb is a thumbnail generation library. Features:
@@ -2086,24 +2086,24 @@ Provides:	evas-saver-eet = %{version}-%{release}
 # packages merged in
 Obsoletes:	evas-engine-buffer < %{version}-%{release}
 Obsoletes:	evas-engine-software_generic < %{version}-%{release}
-Obsoletes:	evas-libs
+Obsoletes:	evas-libs < 0.9.9.036
 Obsoletes:	evas-loader-eet < %{version}-%{release}
 Obsoletes:	evas-loader-pmaps < %{version}-%{release}
 Obsoletes:	evas-loader-xpm < %{version}-%{release}
 Obsoletes:	evas-saver-eet < %{version}-%{release}
 # obsolete packages
-Obsoletes:	evas-engine-directfb
-Obsoletes:	evas-engine-software_8
-Obsoletes:	evas-engine-software_8_x11
-Obsoletes:	evas-engine-software_16
-Obsoletes:	evas-engine-software_16_sdl
-Obsoletes:	evas-engine-software_16_x11
-Obsoletes:	evas-engine-software_qtopia
-Obsoletes:	evas-engine-xrender_x11
-Obsoletes:	evas-engine-xrender_xcb
-Obsoletes:	evas-loader-edb
-Obsoletes:	evas-loader-svg
-Obsoletes:	evas-saver-edb
+Obsoletes:	evas-engine-directfb < 1.8
+Obsoletes:	evas-engine-software_8 < 1.8
+Obsoletes:	evas-engine-software_8_x11 < 1.8
+Obsoletes:	evas-engine-software_16 < 1.8
+Obsoletes:	evas-engine-software_16_sdl < 1.8
+Obsoletes:	evas-engine-software_16_x11 < 1.8
+Obsoletes:	evas-engine-software_qtopia < 1.1
+Obsoletes:	evas-engine-xrender_x11 < 1.1
+Obsoletes:	evas-engine-xrender_xcb < 1.0.0-1
+Obsoletes:	evas-loader-edb < 1.8
+Obsoletes:	evas-loader-svg < 1.8
+Obsoletes:	evas-saver-edb < 1.8
 
 %description -n evas
 Evas is a clean display canvas API for several target display systems
@@ -2234,7 +2234,7 @@ License:	BSD
 Group:		Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Evas
 Requires:	evas = %{version}-%{release}
-Obsoletes:	evas-engine-software_xcb
+Obsoletes:	evas-engine-software_xcb < 1.0.0-1
 
 %description -n evas-engine-software_x11
 Software X11 rendering engine module for Evas.
@@ -2420,7 +2420,7 @@ Summary:	EDC syntax support for Vim
 Summary(pl.UTF-8):	Obsługa składni EDC dla Vima
 Group:		Applications/Editors/Vim
 Requires:	vim-rt
-Obsoletes:	vim-syntax-edc
+Obsoletes:	vim-syntax-edc < 1.8
 
 %description -n vim-addon-efl
 EDC syntax support for Vim.
