@@ -145,7 +145,7 @@ Summary:	Enlightened Core event abstraction library
 Summary(pl.UTF-8):	Biblioteka interfejsu abstrakcji zdarzeń Enlightened Core
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	eina = %{version}-%{release}
 Requires:	eo = %{version}-%{release}
 %{?with_systemd:Requires:	systemd-libs >= 1:192}
@@ -178,7 +178,7 @@ Summary:	Header files for Ecore library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ecore
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore = %{version}-%{release}
 Requires:	eina-devel = %{version}-%{release}
 Requires:	eo-devel = %{version}-%{release}
@@ -196,7 +196,7 @@ Summary:	Static Ecore library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-devel = %{version}-%{release}
 
 %description -n ecore-static
@@ -209,7 +209,7 @@ Statyczna biblioteka Ecore.
 Summary:	C++ API for Ecore library
 Summary(pl.UTF-8):	API języka C++ do biblioteki Ecore
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-devel = %{version}-%{release}
 Requires:	eina-cxx-devel = %{version}-%{release}
 Requires:	eo-cxx-devel = %{version}-%{release}
@@ -225,7 +225,7 @@ Summary:	systemd system module for Ecore library
 Summary(pl.UTF-8):	Moduł systemu systemd dla biblioteki Ecore
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore = %{version}-%{release}
 Requires:	eldbus = %{version}-%{release}
 
@@ -240,7 +240,7 @@ Summary:	UPower system module for Ecore library
 Summary(pl.UTF-8):	Moduł systemu UPower dla biblioteki Ecore
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore = %{version}-%{release}
 Requires:	eldbus = %{version}-%{release}
 
@@ -255,7 +255,7 @@ Summary:	Ecore Audio library
 Summary(pl.UTF-8):	Biblioteka dźwięku Ecore Audio
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore = %{version}-%{release}
 Requires:	eet = %{version}-%{release}
 
@@ -270,7 +270,7 @@ Summary:	Header file for Ecore Audio library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore Audio
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-audio = %{version}-%{release}
 Requires:	ecore-devel = %{version}-%{release}
 Requires:	eet-devel = %{version}-%{release}
@@ -288,7 +288,7 @@ Summary:	Static Ecore Audio library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore Audio
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-audio-devel = %{version}-%{release}
 
 %description -n ecore-audio-static
@@ -301,7 +301,7 @@ Statyczna biblioteka dźwięku Ecore Audio.
 Summary:	C++ API for Ecore Audio library
 Summary(pl.UTF-8):	API języka C++ do biblioteki Ecore Audio
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-audio-devel = %{version}-%{release}
 Requires:	eo-cxx-devel = %{version}-%{release}
 
@@ -316,7 +316,7 @@ Summary:	Ecore Avahi integration library
 Summary(pl.UTF-8):	Biblioteka integracji Ecore z Avahi
 License:	unknown
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore = %{version}-%{release}
 Requires:	eina = %{version}-%{release}
 Requires:	eo = %{version}-%{release}
@@ -332,7 +332,7 @@ Summary:	Header file for Ecore Avahi library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore Avahi
 License:	unknown
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	avahi-devel
 Requires:	ecore-avahi = %{version}-%{release}
 Requires:	ecore-devel = %{version}-%{release}
@@ -350,7 +350,7 @@ Summary:	Static Ecore Avahi library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore Avahi
 License:	unknown
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-avahi-devel = %{version}-%{release}
 
 %description -n ecore-avahi-static
@@ -364,7 +364,7 @@ Summary:	Ecore Con(nection) library
 Summary(pl.UTF-8):	Biblioteka połączeń Ecore Con
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore = %{version}-%{release}
 Requires:	eet = %{version}-%{release}
 %{?with_gnutls:Requires:	gnutls >= 2.12.16}
@@ -381,7 +381,7 @@ Summary:	Header file for Ecore Con library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore Con
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-con = %{version}-%{release}
 Requires:	ecore-devel = %{version}-%{release}
 Requires:	eet-devel = %{version}-%{release}
@@ -400,7 +400,7 @@ Summary:	Static Ecore Con library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore Con
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-con-devel = %{version}-%{release}
 
 %description -n ecore-con-static
@@ -414,7 +414,7 @@ Summary:	Ecore DRM library
 Summary(pl.UTF-8):	Biblioteka Ecore DRM
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-input = %{version}-%{release}
 Requires:	libdrm >= 2.4
 Requires:	udev-libs >= 1:148
@@ -431,7 +431,7 @@ Summary:	Header file for Ecore DRM library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore DRM
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-drm = %{version}-%{release}
 Requires:	ecore-input-devel = %{version}-%{release}
 Requires:	libdrm-devel >= 2.4
@@ -450,7 +450,7 @@ Summary:	Static Ecore DRM library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore DRM
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-drm-devel = %{version}-%{release}
 
 %description -n ecore-drm-static
@@ -464,7 +464,7 @@ Summary:	Ecore Evas library
 Summary(pl.UTF-8):	Biblioteka Ecore Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore = %{version}-%{release}
 %{?with_drm:Requires:	ecore = %{version}-%{release}}
 Requires:	ecore-input = %{version}-%{release}
@@ -482,7 +482,7 @@ Summary:	Header file for Ecore Evas library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore Evas
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-devel = %{version}-%{release}
 %{?with_drm:Requires:	ecore-drm = %{version}-%{release}}
 Requires:	ecore-evas = %{version}-%{release}
@@ -501,7 +501,7 @@ Summary:	Static Ecore Evas library
 Summary(pl.UTF-8):	Biblioteka statyczna Ecore Evas
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-evas-devel = %{version}-%{release}
 
 %description -n ecore-evas-static
@@ -515,7 +515,7 @@ Summary:	DRM engine module for Ecore Evas library
 Summary(pl.UTF-8):	Moduł silnika DRM dla biblioteki Ecore Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-evas = %{version}-%{release}
 Requires:	evas-engine-drm = %{version}-%{release}
 
@@ -530,7 +530,7 @@ Summary:	extn engine module for Ecore Evas library
 Summary(pl.UTF-8):	Moduł silnika extn dla biblioteki Ecore Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-ipc = %{version}-%{release}
 
@@ -545,7 +545,7 @@ Summary:	Framebuffer engine module for Ecore Evas library
 Summary(pl.UTF-8):	Moduł silnika framebuffer dla biblioteki Ecore Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-fb = %{version}-%{release}
 Requires:	ecore-input-evas = %{version}-%{release}
@@ -562,7 +562,7 @@ Summary:	SDL engine module for Ecore Evas library
 Summary(pl.UTF-8):	Moduł silnika SDL dla biblioteki Ecore Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-input-evas = %{version}-%{release}
 Requires:	ecore-sdl = %{version}-%{release}
@@ -579,7 +579,7 @@ Summary:	Wayland engine module for Ecore Evas library
 Summary(pl.UTF-8):	Moduł silnika Wayland dla biblioteki Ecore Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-input-evas = %{version}-%{release}
 Requires:	ecore-wayland = %{version}-%{release}
@@ -600,7 +600,7 @@ Summary:	X engine module for Ecore Evas library
 Summary(pl.UTF-8):	Moduł silnika X dla biblioteki Ecore Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-input-evas = %{version}-%{release}
 Requires:	ecore-x = %{version}-%{release}
@@ -619,7 +619,7 @@ Summary:	Ecore FB (frame buffer system functions) library
 Summary(pl.UTF-8):	Biblioteka Ecore FB (funkcji systemowych framebuffera)
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-input = %{version}-%{release}
 
 %description -n ecore-fb
@@ -633,7 +633,7 @@ Summary:	Header file for Ecore FB library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore FB
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-fb = %{version}-%{release}
 Requires:	ecore-input-devel = %{version}-%{release}
 Requires:	tslib-devel
@@ -650,7 +650,7 @@ Summary:	Static Ecore FB library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore FB
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-fb-devel = %{version}-%{release}
 
 %description -n ecore-fb-static
@@ -664,7 +664,7 @@ Summary:	Ecore File library
 Summary(pl.UTF-8):	Biblioteka Ecore File
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-con = %{version}-%{release}
 
 %description -n ecore-file
@@ -678,7 +678,7 @@ Summary:	Header file for Ecore File library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore File
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-con-devel = %{version}-%{release}
 Requires:	ecore-file = %{version}-%{release}
 
@@ -693,7 +693,7 @@ Summary:	Static Ecore File library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore File
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-file-devel = %{version}-%{release}
 
 %description -n ecore-file-static
@@ -707,7 +707,7 @@ Summary:	Ecore IMF library
 Summary(pl.UTF-8):	Biblioteka Ecore IMF
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-input = %{version}-%{release}
 
 %description -n ecore-imf
@@ -721,7 +721,7 @@ Summary:	Header file for Ecore IMF library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore IMF
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-input-devel = %{version}-%{release}
 Requires:	ecore-imf = %{version}-%{release}
 
@@ -736,7 +736,7 @@ Summary:	Static Ecore IMF library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore IMF
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-imf-devel = %{version}-%{release}
 
 %description -n ecore-imf-static
@@ -750,7 +750,7 @@ Summary:	Ecore IMF IBus input method module
 Summary(pl.UTF-8):	Ecore IMF - moduł metody wprowadzania znaków IBus
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-imf = %{version}-%{release}
 Requires:	ecore-x = %{version}-%{release}
@@ -768,7 +768,7 @@ Summary:	Ecore IMF SCIM input method module
 Summary(pl.UTF-8):	Ecore IMF - moduł metody wprowadzania znaków SCIM
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-imf = %{version}-%{release}
 Requires:	ecore-x = %{version}-%{release}
@@ -786,7 +786,7 @@ Summary:	Ecore IMF Wayland input method module
 Summary(pl.UTF-8):	Ecore IMF - moduł metody wprowadzania znaków Wayland
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-imf = %{version}-%{release}
 Requires:	ecore-wayland = %{version}-%{release}
@@ -802,7 +802,7 @@ Summary:	Ecore IMF XIM input method module
 Summary(pl.UTF-8):	Ecore IMF - moduł metody wprowadzania znaków XIM
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-imf = %{version}-%{release}
 Requires:	ecore-x = %{version}-%{release}
 Obsoletes:	ecore-module-xim < 1.8
@@ -818,7 +818,7 @@ Summary:	Ecore IMF Evas library
 Summary(pl.UTF-8):	Biblioteka Ecore IMF Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-imf = %{version}-%{release}
 Requires:	evas = %{version}-%{release}
 
@@ -833,7 +833,7 @@ Summary:	Header file for Ecore IMF Evas library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore IMF Evas
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-imf-devel = %{version}-%{release}
 Requires:	ecore-imf-evas = %{version}-%{release}
 Requires:	evas-devel = %{version}-%{release}
@@ -849,7 +849,7 @@ Summary:	Static Ecore IMF Evas library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore IMF Evas
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-imf-evas-devel = %{version}-%{release}
 
 %description -n ecore-imf-evas-static
@@ -863,7 +863,7 @@ Summary:	Ecore Input library
 Summary(pl.UTF-8):	Biblioteka Ecore Input
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore = %{version}-%{release}
 
 %description -n ecore-input
@@ -877,7 +877,7 @@ Summary:	Header file for Ecore Input library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore Input
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-devel = %{version}-%{release}
 Requires:	ecore-input = %{version}-%{release}
 
@@ -892,7 +892,7 @@ Summary:	Static Ecore Input library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore Input
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-input-devel = %{version}-%{release}
 
 %description -n ecore-input-static
@@ -906,7 +906,7 @@ Summary:	Ecore Input Evas extension library
 Summary(pl.UTF-8):	Biblioteka rozszerzenia Ecore Input Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-input = %{version}-%{release}
 Requires:	evas = %{version}-%{release}
 
@@ -921,7 +921,7 @@ Summary:	Header file for Ecore Input Evas extension library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki rozszerzenia Ecore Input Evas
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-input-devel = %{version}-%{release}
 Requires:	ecore-input-evas = %{version}-%{release}
 Requires:	evas-devel = %{version}-%{release}
@@ -937,7 +937,7 @@ Summary:	Static Ecore Input Evas extension library
 Summary(pl.UTF-8):	Statyczna biblioteka rozszerzenia Ecore Input Evas
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-input-evas-devel = %{version}-%{release}
 
 %description -n ecore-input-evas-static
@@ -951,7 +951,7 @@ Summary:	Ecore IPC (inter-process communication functions) library
 Summary(pl.UTF-8):	Biblioteka Ecore IPC (funkcji komunikacji międzyprocesowej)
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-con = %{version}-%{release}
 
 %description -n ecore-ipc
@@ -965,7 +965,7 @@ Summary:	Header file for Ecore IPC library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore IPC
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-con-devel = %{version}-%{release}
 Requires:	ecore-ipc = %{version}-%{release}
 
@@ -982,7 +982,7 @@ Summary:	Static Ecore IPC library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore IPC
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-ipc-devel = %{version}-%{release}
 
 %description -n ecore-ipc-static
@@ -996,7 +996,7 @@ Summary:	Ecore SDL library
 Summary(pl.UTF-8):	Biblioteka Ecore SDL
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-input = %{version}-%{release}
 Requires:	SDL >= 1.2.0
 
@@ -1011,7 +1011,7 @@ Summary:	Header file for Ecore SDL library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore SDL
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-input-devel = %{version}-%{release}
 Requires:	ecore-sdl = %{version}-%{release}
 Requires:	SDL-devel >= 1.2.0
@@ -1027,7 +1027,7 @@ Summary:	Static Ecore SDL library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore SDL
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ecore
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-sdl-devel = %{version}-%{release}
 
 %description -n ecore-sdl-static
@@ -1040,6 +1040,7 @@ Statyczna biblioteka Ecore SDL.
 Summary:	Ecore Wayland library
 Summary(pl.UTF-8):	Biblioteka Ecore Wayland
 Group:		Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore = %{version}-%{release}
 Requires:	ecore-input = %{version}-%{release}
 Requires:	wayland >= 1.3.0
@@ -1055,6 +1056,7 @@ Biblioteka Ecore Wayland.
 Summary:	Header file for Ecore Wayland library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki Ecore Wayland
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-devel = %{version}-%{release}
 Requires:	ecore-input-devel = %{version}-%{release}
 Requires:	ecore-wayland = %{version}-%{release}
@@ -1071,6 +1073,7 @@ Plik nagłówkowy biblioteki Ecore Wayland.
 Summary:	Static Ecore Wayland library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore Wayland
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-wayland-devel = %{version}-%{release}
 
 %description -n ecore-wayland-static
@@ -1083,6 +1086,7 @@ Statyczna biblioteka Ecore Wayland.
 Summary:	Ecore X (functions for dealing with the X Window System) library
 Summary(pl.UTF-8):	Biblioteka Ecore X (funkcji do obsługi X Window System)
 Group:		X11/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore = %{version}-%{release}
 Requires:	ecore-input = %{version}-%{release}
 %if %{with xcb}
@@ -1105,6 +1109,7 @@ Biblioteka Ecore X (funkcji do obsługi X Window System).
 Summary:	Header files for Ecore X library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ecore X
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-devel = %{version}-%{release}
 Requires:	ecore-input-devel = %{version}-%{release}
 Requires:	ecore-x = %{version}-%{release}
@@ -1143,6 +1148,7 @@ System).
 Summary:	Static Ecore X library
 Summary(pl.UTF-8):	Statyczna biblioteka Ecore X
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-x-devel = %{version}-%{release}
 
 %description -n ecore-x-static
@@ -1157,7 +1163,7 @@ Summary:	Complex Graphical Design/Layout Engine
 Summary(pl.UTF-8):	Złożony silnik graficznego projektowania/planowania
 License:	BSD (library), GPL v2 (epp)
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Edje
+URL:		https://www.enlightenment.org/_legacy_embed/edje_main.html
 Requires:	edje-libs = %{version}-%{release}
 Requires:	evas-loader-png = %{version}-%{release}
 
@@ -1199,7 +1205,7 @@ Summary:	Edje library
 Summary(pl.UTF-8):	Biblioteka edje
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Edje
+URL:		https://www.enlightenment.org/_legacy_embed/edje_main.html
 Requires:	ecore-audio = %{version}-%{release}
 Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-file = %{version}-%{release}
@@ -1223,7 +1229,7 @@ Summary:	Edje header files
 Summary(pl.UTF-8):	Pliki nagłówkowe Edje
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Edje
+URL:		https://www.enlightenment.org/_legacy_embed/edje_main.html
 Requires:	ecore-audio-devel = %{version}-%{release}
 Requires:	ecore-evas-devel = %{version}-%{release}
 Requires:	ecore-file-devel = %{version}-%{release}
@@ -1247,7 +1253,7 @@ Summary:	Static Edje library
 Summary(pl.UTF-8):	Statyczna biblioteka Edje
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Edje
+URL:		https://www.enlightenment.org/_legacy_embed/edje_main.html
 Requires:	edje-devel = %{version}-%{release}
 
 %description -n edje-static
@@ -1260,7 +1266,7 @@ Statyczna biblioteka Edje.
 Summary:	C++ API for Edje library
 Summary(pl.UTF-8):	API języka C++ do biblioteki Edje
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Edje
+URL:		https://www.enlightenment.org/_legacy_embed/edje_main.html
 Requires:	edje-devel = %{version}-%{release}
 Requires:	eo-cxx-devel = %{version}-%{release}
 
@@ -1275,7 +1281,7 @@ Summary:	Emotion module for Edje library
 Summary(pl.UTF-8):	Moduł Emotion dla biblioteki Edje
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Emotion
+URL:		https://www.enlightenment.org/_legacy_embed/edje_main.html
 Requires:	edje-libs = %{version}-%{release}
 Requires:	emotion = %{version}-%{release}
 
@@ -1290,7 +1296,7 @@ Summary:	Library for speedy data storage, retrieval, and compression
 Summary(pl.UTF-8):	Biblioteka do szybkiego zapisywania, odtwarzania i kompresji danych
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Eet
+URL:		https://www.enlightenment.org/_legacy_embed/eet_main.html
 Requires:	eina = %{version}-%{release}
 %{?with_gnutls:Requires:	gnutls >= 2.12.16}
 %{?with_gnutls:Requires:	libgcrypt >= 1.2.0}
@@ -1328,7 +1334,7 @@ Summary:	Header files for Eet library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Eet
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Eet
+URL:		https://www.enlightenment.org/_legacy_embed/eet_main.html
 Requires:	eet = %{version}-%{release}
 Requires:	eina-devel = %{version}-%{release}
 %{?with_gnutls:Requires:	gnutls-devel >= 2.12.16}
@@ -1348,7 +1354,7 @@ Summary:	Static Eet library
 Summary(pl.UTF-8):	Statyczna biblioteka Eet
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Eet
+URL:		https://www.enlightenment.org/_legacy_embed/eet_main.html
 Requires:	eet-devel = %{version}-%{release}
 
 %description -n eet-static
@@ -1361,7 +1367,7 @@ Statyczna biblioteka Eet.
 Summary:	C++ API for Eet library
 Summary(pl.UTF-8):	API języka C++ do biblioteki Eet
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Eet
+URL:		https://www.enlightenment.org/_legacy_embed/eet_main.html
 Requires:	eet-devel = %{version}-%{release}
 Requires:	eina-cxx-devel = %{version}-%{release}
 Requires:	eo-cxx-devel = %{version}-%{release}
@@ -1377,7 +1383,7 @@ Summary:	Library for manipulating devices through udev
 Summary(pl.UTF-8):	Biblioteka do operowania urządzeniami korzystająca z udev
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Eeze
+URL:		https://www.enlightenment.org/_legacy_embed/eeze_main.html
 Requires:	ecore-file = %{version}-%{release}
 Requires:	eet = %{version}-%{release}
 Requires:	libmount >= 2.18.0
@@ -1421,7 +1427,7 @@ Summary:	Eeze header files
 Summary(pl.UTF-8):	Pliki nagłówkowe Eeze
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Eeze
+URL:		https://www.enlightenment.org/_legacy_embed/eeze_main.html
 Requires:	eeze = %{version}-%{release}
 Requires:	ecore-file-devel = %{version}-%{release}
 Requires:	libmount-devel >= 2.18.0
@@ -1438,7 +1444,7 @@ Summary:	Static Eeze library
 Summary(pl.UTF-8):	Statyczna biblioteka Eeze
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Eeze
+URL:		https://www.enlightenment.org/_legacy_embed/eeze_main.html
 Requires:	eeze-devel = %{version}-%{release}
 
 %description -n eeze-static
@@ -1452,7 +1458,7 @@ Summary:	freedesktop.org standards implementation for the EFL
 Summary(pl.UTF-8):	Implementacja standardów freedesktop.org dla EFL
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Efreet
+URL:		https://www.enlightenment.org/_legacy_embed/efreet_main.html
 Requires:	dbus
 Requires:	efreet-libs = %{version}-%{release}
 
@@ -1489,7 +1495,7 @@ Summary:	Efreet shared libraries
 Summary(pl.UTF-8):	Biblioteki współdzielone Efreet
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Efreet
+URL:		https://www.enlightenment.org/_legacy_embed/efreet_main.html
 Requires:	ecore-file = %{version}-%{release}
 Requires:	eldbus = %{version}-%{release}
 Requires:	eet = %{version}-%{release}
@@ -1505,7 +1511,7 @@ Summary:	Efreet header files
 Summary(pl.UTF-8):	Pliki nagłówkowe Efreet
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Efreet
+URL:		https://www.enlightenment.org/_legacy_embed/efreet_main.html
 Requires:	ecore-file-devel = %{version}-%{release}
 Requires:	eet-devel = %{version}-%{release}
 Requires:	efreet-libs = %{version}-%{release}
@@ -1522,7 +1528,7 @@ Summary:	Static Efreet library
 Summary(pl.UTF-8):	Statyczna biblioteka Efreet
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Efreet
+URL:		https://www.enlightenment.org/_legacy_embed/efreet_main.html
 Requires:	efreet-devel = %{version}-%{release}
 
 %description -n efreet-static
@@ -1536,7 +1542,7 @@ Summary:	Data types library (list, hash, etc.)
 Summary(pl.UTF-8):	Biblioteka struktur danych (lista, hasz, itp.)
 License:	LGPL v2.1+
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Eina
+URL:		https://www.enlightenment.org/_legacy_embed/eina_main.html
 %{?with_systemd:Requires:	systemd-libs >= 1:192}
 
 %description -n eina
@@ -1550,7 +1556,7 @@ Summary:	Eina header files
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Eina
 License:	LGPL v2.1+
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Eina
+URL:		https://www.enlightenment.org/_legacy_embed/eina_main.html
 Requires:	eina = %{version}-%{release}
 %{?with_systemd:Requires:	systemd-devel >= 1:192}
 
@@ -1565,7 +1571,7 @@ Summary:	Static Eina library
 Summary(pl.UTF-8):	Statyczna biblioteka Eina
 License:	LGPL v2.1+
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Eina
+URL:		https://www.enlightenment.org/_legacy_embed/eina_main.html
 Requires:	eina-devel = %{version}-%{release}
 
 %description -n eina-static
@@ -1578,7 +1584,7 @@ Statyczna biblioteka Eina.
 Summary:	C++ API for Eina library
 Summary(pl.UTF-8):	API języka C++ do biblioteki Eina
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Eina
+URL:		https://www.enlightenment.org/_legacy_embed/eina_main.html
 Requires:	eina-devel = %{version}-%{release}
 Requires:	libstdc++-devel
 
@@ -1593,7 +1599,7 @@ Summary:	Enlightenment Input Output Library
 Summary(pl.UTF-8):	Enlightenment Input Output - biblioteka wejścia/wyjścia z projektu Enlightenment
 License:	LGPL v2.1+
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Eio
+URL:		https://www.enlightenment.org/_legacy_embed/eio_main.html
 Requires:	ecore = %{version}-%{release}
 Requires:	eet = %{version}-%{release}
 
@@ -1613,6 +1619,7 @@ zawierać wszystkie funkcje Ecore_File, które mogą być blokujące.
 Summary:	Header files for Eio library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Eio
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/eio_main.html
 Requires:	ecore-devel = %{version}-%{release}
 Requires:	eet-devel = %{version}-%{release}
 Requires:	eio = %{version}-%{release}
@@ -1628,6 +1635,7 @@ Pliki nagłówkowe biblioteki Eio.
 Summary:	Static Eio library
 Summary(pl.UTF-8):	Statyczna biblioteka Eio
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/eio_main.html
 Requires:	eio-devel = %{version}-%{release}
 
 %description -n eio-static
@@ -1641,6 +1649,7 @@ Summary:	Easy access to D-Bus from EFL applications
 Summary(pl.UTF-8):	Łatwy dostęp do usługi D-Bus z aplikacji EFL
 License:	LGPL v2.1+
 Group:		Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/eldbus_main.html
 Requires:	ecore = %{version}-%{release}
 Requires:	eina = %{version}-%{release}
 
@@ -1661,6 +1670,7 @@ Summary:	Header files for eldbus library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki eldbus
 License:	LGPL v2.1+
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/eldbus_main.html
 Requires:	dbus-devel
 Requires:	ecore-devel = %{version}-%{release}
 Requires:	eina-devel = %{version}-%{release}
@@ -1677,6 +1687,7 @@ Summary:	Static eldbus library
 Summary(pl.UTF-8):	Statyczna biblioteka eldbus
 License:	LGPL v2.1+
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/eldbus_main.html
 Requires:	eldbus-devel = %{version}-%{release}
 
 %description -n eldbus-static
@@ -1689,6 +1700,7 @@ Statyczna biblioteka eldbus.
 Summary:	C++ API for eldbus library
 Summary(pl.UTF-8):	API języka C++ do biblioteki eldbus
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/eldbus_main.html
 Requires:	eina-cxx-devel = %{version}-%{release}
 Requires:	eldbus-devel = %{version}-%{release}
 Requires:	libstdc++-devel
@@ -1704,7 +1716,7 @@ Summary:	Enlightenment Fundation Libraries - Embryo
 Summary(pl.UTF-8):	Podstawowe biblioteki Enlightenmenta - Embryo
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Embryo
+URL:		https://www.enlightenment.org/_legacy_embed/embryo_main.html
 Requires:	eina = %{version}-%{release}
 
 %description -n embryo
@@ -1720,7 +1732,7 @@ Summary:	Embryo header files
 Summary(pl.UTF-8):	Pliki nagłówkowe Embryo
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Embryo
+URL:		https://www.enlightenment.org/_legacy_embed/embryo_main.html
 Requires:	eina-devel = %{version}-%{release}
 Requires:	embryo = %{version}-%{release}
 
@@ -1735,7 +1747,7 @@ Summary:	Static Embryo library
 Summary(pl.UTF-8):	Statyczna biblioteka Embryo
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Embryo
+URL:		https://www.enlightenment.org/_legacy_embed/embryo_main.html
 Requires:	embryo-devel = %{version}-%{release}
 
 %description -n embryo-static
@@ -1749,7 +1761,7 @@ Summary:	Emotion - EFL media playback library
 Summary(pl.UTF-8):	Emotion - biblioteka EFL do odtwarzania multimediów
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Emotion
+URL:		https://www.enlightenment.org/_legacy_embed/emotion_main.html
 Requires:	ecore = %{version}-%{release}
 Requires:	eet = %{version}-%{release}
 Requires:	eeze = %{version}-%{release}
@@ -1774,7 +1786,7 @@ Summary:	Emotion header files
 Summary(pl.UTF-8):	Pliki nagłówkowe Emotion
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Emotion
+URL:		https://www.enlightenment.org/_legacy_embed/emotion_main.html
 Requires:	ecore-devel = %{version}-%{release}
 Requires:	eio-devel = %{version}-%{release}
 Requires:	eet-devel = %{version}-%{release}
@@ -1793,7 +1805,7 @@ Summary:	Static Emotion library
 Summary(pl.UTF-8):	Statyczna biblioteka Emotion
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Emotion
+URL:		https://www.enlightenment.org/_legacy_embed/emotion_main.html
 Requires:	emotion-devel = %{version}-%{release}
 
 %description -n emotion-static
@@ -1807,7 +1819,7 @@ Summary:	Emotion decoder using gstreamer
 Summary(pl.UTF-8):	Dekoder Emotion używający gstreamera
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Emotion
+URL:		https://www.enlightenment.org/_legacy_embed/emotion_main.html
 Requires:	emotion = %{version}-%{release}
 Requires:	gstreamer >= 1.0
 Requires:	gstreamer-plugins-base >= 1.0
@@ -1823,7 +1835,7 @@ Summary:	Emotion decoder using xine
 Summary(pl.UTF-8):	Dekoder Emotion używający xine
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Emotion
+URL:		https://www.enlightenment.org/_legacy_embed/emotion_main.html
 Requires:	emotion = %{version}-%{release}
 Requires:	xine-lib >= 2:1.1.1
 
@@ -1904,6 +1916,7 @@ Summary:	EFL .eo parser and code generator library
 Summary(pl.UTF-8):	Biblioteka EFL do analizy .eo i generowania kodu
 License:	BSD
 Group:		Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/eolian_main.html
 Requires:	eina = %{version}-%{release}
 
 %description -n eolian
@@ -1917,6 +1930,7 @@ Summary:	Header files for Eolian library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Eolian
 License:	BSD
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/eolian_main.html
 Requires:	eina-devel = %{version}-%{release}
 Requires:	eolian = %{version}-%{release}
 
@@ -1931,6 +1945,7 @@ Summary:	Static Eolian library
 Summary(pl.UTF-8):	Statyczna biblioteka Eolian
 License:	BSD
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/eolian_main.html
 Requires:	eolian-devel = %{version}-%{release}
 
 %description -n eolian-static
@@ -1943,6 +1958,7 @@ Statyczna biblioteka Eolian.
 Summary:	C++ API for Eolian library
 Summary(pl.UTF-8):	API języka C++ do biblioteki Eolian
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/eolian_main.html
 Requires:	eo-devel = %{version}-%{release}
 Requires:	eolian-devel = %{version}-%{release}
 Requires:	libstdc++-devel
@@ -1957,6 +1973,7 @@ API języka C++ do biblioteki Eolian.
 Summary:	EPhysics - wrapper for physics engine
 Summary(pl.UTF-8):	EPhysics - interfejs do silnika fizyki
 Group:		Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/ephysics_main.html
 Requires:	bullet >= 2.80
 Requires:	ecore = %{version}-%{release}
 Requires:	evas = %{version}-%{release}
@@ -1971,6 +1988,7 @@ EPhysics to interfejs do silnika fizyki.
 Summary:	Header file for EPhysics library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki EPhysics
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/ephysics_main.html
 Requires:	bullet-devel >= 2.80
 Requires:	ecore-devel = %{version}-%{release}
 Requires:	ephysics = %{version}-%{release}
@@ -1986,6 +2004,7 @@ Plik nagłówkowy biblioteki EPhysics.
 Summary:	Static EPhysics library
 Summary(pl.UTF-8):	Statyczna biblioteka EPhysics
 Group:		Development/Libraries
+URL:		https://www.enlightenment.org/_legacy_embed/ephysics_main.html
 Requires:	ephysics-devel = %{version}-%{release}
 
 %description -n ephysics-static
@@ -1999,7 +2018,7 @@ Summary:	Ethumb - thumbnail generation service and utilities
 Summary(pl.UTF-8):	Ethumb - usługa i narzędzia generujące miniaturki
 License:	LGPL v2.1
 Group:		Applications/Graphics
-URL:		http://trac.enlightenment.org/e/wiki/Ethumb
+URL:		https://www.enlightenment.org/_legacy_embed/ethumb_main.html
 Requires:	dbus
 Requires:	ethumb-libs = %{version}-%{release}
 Obsoletes:	ethumb-plugin-epdf < 1.8
@@ -2021,7 +2040,7 @@ Summary:	Ethumb shared libraries
 Summary(pl.UTF-8):	Biblioteki współdzielone Ethumb
 License:	LGPL v2.1
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ethumb
+URL:		https://www.enlightenment.org/_legacy_embed/ethumb_main.html
 Requires:	ecore-evas = %{version}-%{release}
 Requires:	ecore-file = %{version}-%{release}
 Requires:	edje-libs = %{version}-%{release}
@@ -2038,7 +2057,7 @@ Summary:	Header files for Ethumb libraries
 Summary(pl.UTF-8):	Pliki nagłówkowe bibliotek Ethumb
 License:	LGPL v2.1
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ethumb
+URL:		https://www.enlightenment.org/_legacy_embed/ethumb_main.html
 Requires:	ethumb-libs = %{version}-%{release}
 Requires:	ecore-evas-devel = %{version}-%{release}
 Requires:	ecore-file-devel = %{version}-%{release}
@@ -2056,7 +2075,7 @@ Summary:	Static Ethumb libraries
 Summary(pl.UTF-8):	Statyczne biblioteki Ethumb
 License:	LGPL v2.1
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ethumb
+URL:		https://www.enlightenment.org/_legacy_embed/ethumb_main.html
 Requires:	ethumb-devel = %{version}-%{release}
 
 %description -n ethumb-static
@@ -2070,7 +2089,7 @@ Summary:	Emotion plugin for Ethumb library
 Summary(pl.UTF-8):	Wtyczka Emotion dla biblioteki Ethumb
 License:	LGPL v2.1
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Ethumb
+URL:		https://www.enlightenment.org/_legacy_embed/ethumb_main.html
 Requires:	edje-libs = %{version}-%{release}
 Requires:	emotion = %{version}-%{release}
 Requires:	ethumb-libs = %{version}-%{release}
@@ -2088,7 +2107,7 @@ Summary:	Multi-platform Canvas Library
 Summary(pl.UTF-8):	Wieloplatformowa biblioteka do rysowania
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	eet = %{version}-%{release}
 Requires:	eo = %{version}-%{release}
 Requires:	fontconfig-libs >= 2.5.0
@@ -2139,7 +2158,7 @@ Summary:	Evas header files
 Summary(pl.UTF-8):	Pliki nagłówkowe Evas
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 Requires:	eet-devel = %{version}-%{release}
 Requires:	eo-devel = %{version}-%{release}
@@ -2164,7 +2183,7 @@ Summary:	Static Evas library
 Summary(pl.UTF-8):	Statyczna biblioteka Evas
 License:	BSD
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas-devel = %{version}-%{release}
 
 %description -n evas-static
@@ -2177,7 +2196,7 @@ Statyczna biblioteka Evas.
 Summary:	C++ API for Evas library
 Summary(pl.UTF-8):	API języka C++ do biblioteki Evas
 Group:		Development/Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	eo-cxx-devel = %{version}-%{release}
 Requires:	evas-devel = %{version}-%{release}
 
@@ -2194,7 +2213,7 @@ Summary:	DRM rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego DRM dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 
 %description -n evas-engine-drm
@@ -2208,7 +2227,7 @@ Summary:	Framebuffer rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego na framebuffer dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 
 %description -n evas-engine-fb
@@ -2222,7 +2241,7 @@ Summary:	Generic OpenGL rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego OpenGL dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 
 %description -n evas-engine-gl_generic
@@ -2236,7 +2255,7 @@ Summary:	SDL OpenGL rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego na SDL OpenGL dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 Requires:	evas-engine-gl_generic = %{version}-%{release}
 Requires:	SDL >= 1.2.0
@@ -2252,7 +2271,7 @@ Summary:	OpenGL under X11 rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego na OpenGL pod X11 dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 Requires:	evas-engine-gl_generic = %{version}-%{release}
 
@@ -2267,7 +2286,7 @@ Summary:	Software X11 rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł programowego silnika renderującego X11 dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 Obsoletes:	evas-engine-software_xcb < 1.0.0-1
 
@@ -2282,7 +2301,7 @@ Summary:	Wayland EGL rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego Wayland EGL dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 Requires:	evas-engine-gl_generic = %{version}-%{release}
 Requires:	wayland-egl >= 9.2.0
@@ -2298,7 +2317,7 @@ Summary:	Wayland SHM rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego Wayland SHM dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 
 %description -n evas-engine-wayland_shm
@@ -2313,7 +2332,7 @@ Summary:	GIF Image loader module for Evas
 Summary(pl.UTF-8):	Moduł wczytywania obrazów GIF dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 
 %description -n evas-loader-gif
@@ -2327,7 +2346,7 @@ Summary:	JPEG2000 Image loader module for Evas
 Summary(pl.UTF-8):	Moduł wczytywania obrazów JPEG2000 dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 
 %description -n evas-loader-jp2k
@@ -2341,7 +2360,7 @@ Summary:	JPEG Image loader module for Evas
 Summary(pl.UTF-8):	Moduł wczytywania obrazów JPEG dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 
 %description -n evas-loader-jpeg
@@ -2355,7 +2374,7 @@ Summary:	PNG Image loader module for Evas
 Summary(pl.UTF-8):	Moduł wczytywania obrazów PNG dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 Requires:	libpng >= 1.2.10
 
@@ -2370,7 +2389,7 @@ Summary:	TIFF Image loader module for Evas
 Summary(pl.UTF-8):	Moduł wczytywania obrazów TIFF dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 
 %description -n evas-loader-tiff
@@ -2384,7 +2403,7 @@ Summary:	WebP Image loader module for Evas
 Summary(pl.UTF-8):	Moduł wczytywania obrazów WebP dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 
 %description -n evas-loader-webp
@@ -2399,7 +2418,7 @@ Summary:	JPEG Image saver module for Evas
 Summary(pl.UTF-8):	Moduł zapisywania obrazów JPEG dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 
 %description -n evas-saver-jpeg
@@ -2413,7 +2432,7 @@ Summary:	PNG Image saver module for Evas
 Summary(pl.UTF-8):	Moduł zapisywania obrazów PNG dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 Requires:	libpng >= 1.2.10
 
@@ -2428,7 +2447,7 @@ Summary:	TIFF Image saver module for Evas
 Summary(pl.UTF-8):	Moduł zapisywania obrazów TIFF dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 
 %description -n evas-saver-tiff
@@ -2442,7 +2461,7 @@ Summary:	WebP Image saver module for Evas
 Summary(pl.UTF-8):	Moduł zapisywania obrazów WebP dla Evas
 License:	BSD
 Group:		Libraries
-URL:		http://trac.enlightenment.org/e/wiki/Evas
+URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 
 %description -n evas-saver-webp
