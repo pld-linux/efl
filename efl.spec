@@ -30,15 +30,20 @@
 Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
-Version:	1.10.3
-Release:	9
+Version:	1.11.4
+Release:	1
 License:	LGPL v2.1+, BSD (depends on component)
 Group:		Libraries
-Source0:	https://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
-# Source0-md5:	6b3d88134d3d27dd9b41a4a46d718a19
+#Source0:	https://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
+# temporary URL for old versions
+Source0:	http://sources.openembedded.org/%{name}-%{version}.tar.gz
+# Source0-md5:	eb2bd4a2f6684211dbd5382db024137d
 Patch0:		%{name}-pc.patch
-Patch1:		%{name}-wayland.patch
+Patch1:		%{name}-openssl1.1.patch
 Patch2:		%{name}-am.patch
+Patch3:		%{name}-dns.patch
+Patch4:		%{name}-sdl2.patch
+Patch5:		%{name}-deps.patch
 URL:		https://www.enlightenment.org/docs/efl/start
 %{?with_egl:BuildRequires:	EGL-devel}
 BuildRequires:	OpenGL-GLX-devel
@@ -126,7 +131,7 @@ BuildRequires:	wayland-egl-devel >= 9.2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # it used to be linux-gnu-ARCH before...
-%define		arch_tag	v-1.10
+%define		arch_tag	v-1.11
 
 %description
 EFL - The Enlightenment Foundation Libraries.
@@ -1680,6 +1685,20 @@ Static eldbus library.
 %description -n eldbus-static -l pl.UTF-8
 Statyczna biblioteka eldbus.
 
+%package -n eldbus-cxx-devel
+Summary:	C++ API for eldbus library
+Summary(pl.UTF-8):	API języka C++ do biblioteki eldbus
+Group:		Development/Libraries
+Requires:	eina-cxx-devel = %{version}-%{release}
+Requires:	eldbus-devel = %{version}-%{release}
+Requires:	libstdc++-devel
+
+%description -n eldbus-cxx-devel
+C++ API for eldbus library.
+
+%description -n eldbus-cxx-devel -l pl.UTF-8
+API języka C++ do biblioteki eldbus.
+
 %package -n embryo
 Summary:	Enlightenment Fundation Libraries - Embryo
 Summary(pl.UTF-8):	Podstawowe biblioteki Enlightenmenta - Embryo
@@ -2198,6 +2217,20 @@ Framebuffer rendering engine module for Evas.
 %description -n evas-engine-fb -l pl.UTF-8
 Moduł silnika renderującego na framebuffer dla Evas.
 
+%package -n evas-engine-gl_generic
+Summary:	Generic OpenGL rendering engine module for Evas
+Summary(pl.UTF-8):	Moduł silnika renderującego OpenGL dla Evas
+License:	BSD
+Group:		Libraries
+URL:		http://trac.enlightenment.org/e/wiki/Evas
+Requires:	evas = %{version}-%{release}
+
+%description -n evas-engine-gl_generic
+Generic OpenGL rendering engine module for Evas.
+
+%description -n evas-engine-gl_generic -l pl.UTF-8
+Moduł silnika renderującego OpenGL dla Evas.
+
 %package -n evas-engine-gl_sdl
 Summary:	SDL OpenGL rendering engine module for Evas
 Summary(pl.UTF-8):	Moduł silnika renderującego na SDL OpenGL dla Evas
@@ -2205,6 +2238,7 @@ License:	BSD
 Group:		Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Evas
 Requires:	evas = %{version}-%{release}
+Requires:	evas-engine-gl_generic = %{version}-%{release}
 Requires:	SDL >= 1.2.0
 
 %description -n evas-engine-gl_sdl
@@ -2220,6 +2254,7 @@ License:	BSD
 Group:		Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Evas
 Requires:	evas = %{version}-%{release}
+Requires:	evas-engine-gl_generic = %{version}-%{release}
 
 %description -n evas-engine-gl_x11
 OpenGL under X11 rendering engine module for Evas.
@@ -2249,6 +2284,7 @@ License:	BSD
 Group:		Libraries
 URL:		http://trac.enlightenment.org/e/wiki/Evas
 Requires:	evas = %{version}-%{release}
+Requires:	evas-engine-gl_generic = %{version}-%{release}
 Requires:	wayland-egl >= 9.2.0
 
 %description -n evas-engine-wayland_egl
@@ -2415,24 +2451,31 @@ WebP Image saver module for Evas.
 %description -n evas-saver-webp -l pl.UTF-8
 Moduł zapisywania obrazów WebP dla Evas.
 
-%package -n vim-addon-efl
-Summary:	EDC syntax support for Vim
-Summary(pl.UTF-8):	Obsługa składni EDC dla Vima
-Group:		Applications/Editors/Vim
-Requires:	vim-rt
-Obsoletes:	vim-syntax-edc < 1.8
+%package -n elua
+Summary:	EFL/LuaJIT executor
+Summary(pl.UTF-8):	Program uruchamiający EFL/LuaJIT
+Group:		Development/Languages
+Requires:	ecore = %{version}-%{release}
+Requires:	eina = %{version}-%{release}
+Requires:	eo = %{version}-%{release}
+Requires:	luajit >= 2.0.0
 
-%description -n vim-addon-efl
-EDC syntax support for Vim.
+%description -n elua
+EFL/LuaJIT executor.
 
-%description -n vim-addon-efl -l pl.UTF-8
-Obsługa składni EDC dla Vima.
+%description -n elua -l pl.UTF-8
+Program uruchamiający EFL/LuaJIT.
 
 %prep
 %setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+
+%{__sed} -i -e 's/libsystemd-login/libsystemd/' configure.ac
 
 %build
 %{__libtoolize}
@@ -2475,10 +2518,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} -j1 install \
 	DESTDIR=$RPM_BUILD_ROOT
-
-install -d $RPM_BUILD_ROOT%{_datadir}/vim/vimfiles
-cp -pr data/edje/vim/autoload $RPM_BUILD_ROOT%{_datadir}/vim
-cp -pr data/edje/vim/{ftdetect,ftplugin,indent,snippets,syntax} $RPM_BUILD_ROOT%{_datadir}/vim/vimfiles
 
 # obsoleted by pkg-config
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/lib*.la
@@ -2691,10 +2730,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libecore_drm.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libecore_drm.so.1
-%dir %{_libdir}/ecore_drm
-%dir %{_libdir}/ecore_drm/bin
-%dir %{_libdir}/ecore_drm/bin/%{arch_tag}
-%attr(755,root,root) %{_libdir}/ecore_drm/bin/%{arch_tag}/ecore_drm_launch
 
 %files -n ecore-drm-devel
 %defattr(644,root,root,755)
@@ -2968,6 +3003,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libecore_x.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libecore_x.so.1
+%dir %{_libdir}/ecore_x
+%dir %{_libdir}/ecore_x/bin
+%dir %{_libdir}/ecore_x/bin/%{arch_tag}
+%attr(755,root,root) %{_libdir}/ecore_x/bin/%{arch_tag}/ecore_x_vsync
+%{_datadir}/ecore_x
 
 %files -n ecore-x-devel
 %defattr(644,root,root,755)
@@ -2994,7 +3034,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/edje_watch
 %dir %{_libdir}/edje/utils
 %dir %{_libdir}/edje/utils/%{arch_tag}
-%attr(755,root,root) %dir %{_libdir}/edje/utils/%{arch_tag}/epp
+%attr(755,root,root) %{_libdir}/edje/utils/%{arch_tag}/epp
 %{_datadir}/edje
 %{_datadir}/mime/packages/edje.xml
 
@@ -3190,6 +3230,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libeldbus.a
 %endif
+
+%files -n eldbus-cxx-devel
+%defattr(644,root,root,755)
+%{_includedir}/eldbus_cxx-1
 
 %files -n embryo
 %defattr(644,root,root,755)
@@ -3442,6 +3486,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/evas/modules/engines/fb/%{arch_tag}/module.so
 %endif
 
+%files -n evas-engine-gl_generic
+%defattr(644,root,root,755)
+%dir %{_libdir}/evas/modules/engines/gl_generic
+%dir %{_libdir}/evas/modules/engines/gl_generic/%{arch_tag}
+%attr(755,root,root) %{_libdir}/evas/modules/engines/gl_generic/%{arch_tag}/module.so
+
 %if %{with sdl}
 %files -n evas-engine-gl_sdl
 %defattr(644,root,root,755)
@@ -3538,15 +3588,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/evas/modules/savers/webp/%{arch_tag}
 %attr(755,root,root) %{_libdir}/evas/modules/savers/webp/%{arch_tag}/module.so
 
-%files -n vim-addon-efl
+%if %{with luajit}
+%files -n elua
 %defattr(644,root,root,755)
-%doc data/edje/vim/plugin-info.txt
-%{_datadir}/vim/autoload/edccomplete.vim
-%{_datadir}/vim/vimfiles/ftdetect/edc.vim
-%{_datadir}/vim/vimfiles/ftplugin/edc.vim
-%{_datadir}/vim/vimfiles/indent/edc.vim
-# owner?
-%dir %{_datadir}/vim/vimfiles/snippets
-%{_datadir}/vim/vimfiles/snippets/edc.snippets
-%{_datadir}/vim/vimfiles/syntax/edc.vim
-%{_datadir}/vim/vimfiles/syntax/embryo.vim
+%attr(755,root,root) %{_bindir}/elua
+%dir %{_datadir}/elua
+%{_datadir}/elua/apps
+%{_datadir}/elua/core
+%dir %{_datadir}/elua/modules
+%{_datadir}/elua/modules/*.lua
+%{_datadir}/elua/modules/eina
+%{_datadir}/elua/modules/xgettext
+%endif

@@ -1,0 +1,11 @@
+--- efl-1.11.4/src/lib/ecore_con/dns.h.orig	2014-03-10 11:45:48.000000000 +0100
++++ efl-1.11.4/src/lib/ecore_con/dns.h	2024-07-24 21:59:06.729899805 +0200
+@@ -138,7 +138,7 @@ extern int dns_debug;
+ 
+ #define dns_quietinit(...) \
+ 	DNS_PRAGMA_PUSH DNS_PRAGMA_QUIET __VA_ARGS__ DNS_PRAGMA_POP
+-#elif (__GNUC__ == 4 && __GNUC_MINOR__ >= 6) || __GNUC__ > 4
++#elif 0
+ #define DNS_PRAGMA_PUSH _Pragma("GCC diagnostic push")
+ #define DNS_PRAGMA_QUIET _Pragma("GCC diagnostic ignored \"-Woverride-init\"")
+ #define DNS_PRAGMA_POP _Pragma("GCC diagnostic pop")
