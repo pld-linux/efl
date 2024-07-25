@@ -47,7 +47,7 @@ Patch5:		%{name}-deps.patch
 URL:		https://www.enlightenment.org/docs/efl/start
 %{?with_egl:BuildRequires:	EGL-devel}
 BuildRequires:	OpenGL-GLX-devel
-%{?with_sdl:BuildRequires:	SDL-devel >= 1.2.0}
+%{?with_sdl:BuildRequires:	SDL2-devel >= 2.0.0}
 BuildRequires:	autoconf >= 2.60
 BuildRequires:	automake >= 1.6
 BuildRequires:	avahi-devel
@@ -55,6 +55,7 @@ BuildRequires:	bullet-devel >= 2.80
 BuildRequires:	dbus-devel
 BuildRequires:	doxygen
 BuildRequires:	fontconfig-devel >= 2.5.0
+# pkgconfig(freetype2) >= 9.3.0
 BuildRequires:	freetype-devel >= 1:2.2
 BuildRequires:	fribidi-devel >= 0.19.2
 BuildRequires:	gettext-tools >= 0.17
@@ -70,7 +71,7 @@ BuildRequires:	gstreamer-plugins-base-devel >= 1.0
 %{?with_drm:BuildRequires:	libdrm-devel >= 2.4}
 %{?with_gnutls:BuildRequires:	libgcrypt-devel >= 1.2.0}
 BuildRequires:	libjpeg-devel
-BuildRequires:	libmount-devel >= 2.18.0
+BuildRequires:	libmount-devel >= 2.19.1
 BuildRequires:	libpng-devel >= 1.2.10
 BuildRequires:	libsndfile-devel
 BuildRequires:	libstdc++-devel
@@ -87,7 +88,8 @@ BuildRequires:	pixman-devel
 BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	pulseaudio-devel
 %{?with_scim:BuildRequires:	scim-devel}
-%{?with_systemd:BuildRequires:	systemd-devel >= 1:192}
+BuildRequires:	sed >= 4.0
+%{?with_systemd:BuildRequires:	systemd-devel >= 1:209}
 BuildRequires:	tslib-devel
 BuildRequires:	udev-devel >= 1:148
 %{?with_xine:BuildRequires:	xine-lib-devel >= 2:1.1.1}
@@ -183,7 +185,7 @@ Requires:	ecore = %{version}-%{release}
 Requires:	eina-devel = %{version}-%{release}
 Requires:	eo-devel = %{version}-%{release}
 Requires:	glib2-devel >= 2.0
-%{?with_systemd:Requires:	systemd-devel >= 1:192}
+%{?with_systemd:Requires:	systemd-devel >= 1:209}
 
 %description -n ecore-devel
 Header files for Ecore library.
@@ -998,7 +1000,7 @@ License:	BSD
 Group:		Libraries
 URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-input = %{version}-%{release}
-Requires:	SDL >= 1.2.0
+Requires:	SDL2 >= 2.0.0
 
 %description -n ecore-sdl
 Ecore SDL library.
@@ -1014,7 +1016,7 @@ Group:		Development/Libraries
 URL:		https://www.enlightenment.org/_legacy_embed/ecore_main.html
 Requires:	ecore-input-devel = %{version}-%{release}
 Requires:	ecore-sdl = %{version}-%{release}
-Requires:	SDL-devel >= 1.2.0
+Requires:	SDL2-devel >= 2.0.0
 
 %description -n ecore-sdl-devel
 Header file for Ecore SDL library.
@@ -1386,7 +1388,7 @@ Group:		Libraries
 URL:		https://www.enlightenment.org/_legacy_embed/eeze_main.html
 Requires:	ecore-file = %{version}-%{release}
 Requires:	eet = %{version}-%{release}
-Requires:	libmount >= 2.18.0
+Requires:	libmount >= 2.19.1
 Requires:	udev-libs >= 1:148
 Obsoletes:	enlightenment-utils-eeze < 1.7
 
@@ -1430,7 +1432,7 @@ Group:		Development/Libraries
 URL:		https://www.enlightenment.org/_legacy_embed/eeze_main.html
 Requires:	eeze = %{version}-%{release}
 Requires:	ecore-file-devel = %{version}-%{release}
-Requires:	libmount-devel >= 2.18.0
+Requires:	libmount-devel >= 2.19.1
 Requires:	udev-devel >= 1:148
 
 %description -n eeze-devel
@@ -1558,7 +1560,7 @@ License:	LGPL v2.1+
 Group:		Development/Libraries
 URL:		https://www.enlightenment.org/_legacy_embed/eina_main.html
 Requires:	eina = %{version}-%{release}
-%{?with_systemd:Requires:	systemd-devel >= 1:192}
+%{?with_systemd:Requires:	systemd-devel >= 1:209}
 
 %description -n eina-devel
 Header files for Eina.
@@ -2258,7 +2260,7 @@ Group:		Libraries
 URL:		https://www.enlightenment.org/_legacy_embed/evas_main.html
 Requires:	evas = %{version}-%{release}
 Requires:	evas-engine-gl_generic = %{version}-%{release}
-Requires:	SDL >= 1.2.0
+Requires:	SDL2 >= 2.0.0
 
 %description -n evas-engine-gl_sdl
 SDL OpenGL rendering engine module for Evas.
@@ -2494,7 +2496,8 @@ Program uruchamiający EFL/LuaJIT.
 %patch4 -p1
 %patch5 -p1
 
-%{__sed} -i -e 's/libsystemd-login/libsystemd/' configure.ac
+# adjust for systemd 209+
+%{__sed} -i -e 's/libsystemd-\(login\|daemon\|journal\)/libsystemd/g' configure.ac
 
 %build
 %{__libtoolize}
