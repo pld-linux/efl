@@ -23,7 +23,7 @@ Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
 Version:	1.27.0
-Release:	1
+Release:	2
 License:	LGPL v2.1+, BSD (depends on component)
 Group:		Libraries
 #Source0:	https://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.bz2
@@ -399,6 +399,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %ninja_install -C build
 
+%{__mv} $RPM_BUILD_ROOT%{_localedir}/ko{_KR,}
+
 %find_lang efl
 
 %clean
@@ -764,7 +766,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/ethumb
 %{_datadir}/ethumb_client
 %{_datadir}/evas
-%{_datadir}/exactness/player_entry.edj
+%{_datadir}/exactness
 %{_datadir}/mime/packages/edje.xml
 %{_datadir}/mime/packages/evas.xml
 %{_desktopdir}/elementary_config.desktop
