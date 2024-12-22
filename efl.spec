@@ -23,7 +23,7 @@ Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
 Version:	1.27.0
-Release:	3
+Release:	4
 License:	LGPL v2.1+, BSD (depends on component)
 Group:		Libraries
 Source0:	https://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.xz
