@@ -366,7 +366,7 @@ Enlightment.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 
 %{__sed} -E -i -e '1s,#!\s*/usr/bin/env\s+python3(\s|$),#!%{__python3}\1,' \
       src/bin/exactness/exactness_play.in \
