@@ -373,7 +373,7 @@ Enlightment.
       src/bin/exactness/exactness_record.in
 
 %build
-%meson build \
+%meson \
 	-Decore-imf-loaders-disabler=%{!?with_scim:scim} \
 	-Dglib=true \
 	-Dphysics=true \
@@ -390,12 +390,12 @@ Enlightment.
 	%{!?with_systemd:-Dsystemd=false} \
 	%{?with_wayland:-Dwl=true}
 
-%ninja_build -C build
+%meson_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%ninja_install -C build
+%meson_install
 
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ko_KR
 
