@@ -60,6 +60,8 @@ BuildRequires:	libtiff-devel
 BuildRequires:	libwebp-devel
 %{!?with_luajit:BuildRequires:	lua51 >= 5.1.0}
 %{?with_luajit:BuildRequires:	luajit >= 2.0.0}
+BuildRequires:	meson
+BuildRequires:	ninja >= 1.5
 BuildRequires:	openjpeg2-devel >= 2
 BuildRequires:	openssl-devel
 %if %{with pixman}
@@ -67,6 +69,7 @@ BuildRequires:	pixman-devel
 %endif
 BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	pulseaudio-devel
+BuildRequires:	rpmbuild(macros) >= 2.042
 %{?with_scim:BuildRequires:	scim-devel}
 BuildRequires:	sed >= 4.0
 %{?with_systemd:BuildRequires:	systemd-devel >= 1:209}
