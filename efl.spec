@@ -22,13 +22,20 @@
 Summary:	EFL - The Enlightenment Foundation Libraries
 Summary(pl.UTF-8):	EFL (Enlightenment Foundation Libraries) - biblioteki tworzące Enlightment
 Name:		efl
-Version:	1.27.0
-Release:	7
+Version:	1.28.1
+Release:	1
 License:	LGPL v2.1+, BSD (depends on component)
 Group:		Libraries
 Source0:	https://download.enlightenment.org/rel/libs/efl/%{name}-%{version}.tar.xz
-# Source0-md5:	0efa0cbdb915752c99861eb91933f59f
+# Source0-md5:	08e479862cdfa5966cf7a248885673bf
 Patch0:		lua.patch
+Patch1:		0fcaf460c4a33eb54a51b9d8cb38321603019529.patch
+Patch2:		9948f15ebdfae6b39f88ab58623e28c2b9320e0b.patch
+Patch3:		6e63309b26c25cc1c09228b9d06fd47bd6b13884.patch
+Patch4:		60217eff9672e55c67454df13a16236d106fc92f.patch
+Patch5:		628c40cce2de0a18818b40615d3351b0c9e9b889.patch
+Patch6:		fc4c5ec8afc3d1d145eff9807e5235ae6bfeea83.patch
+Patch7:		6d47ea358c4ece8ecc94a8aaf8f501e8cdea24fb.patch
 URL:		https://www.enlightenment.org/docs/efl/start
 BuildRequires:	EGL-devel
 BuildRequires:	OpenGL-GLX-devel
@@ -222,7 +229,7 @@ Obsoletes:	evas-saver-webp < 1.27.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # it used to be linux-gnu-ARCH before...
-%define		arch_tag	v-1.27
+%define		arch_tag	v-1.28
 
 %description
 EFL - The Enlightenment Foundation Libraries.
@@ -370,6 +377,13 @@ Enlightment.
 %prep
 %setup -q
 %patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p1
+%patch -P3 -p1
+%patch -P4 -p1
+%patch -P5 -p1
+%patch -P6 -p1
+%patch -P7 -p1
 
 %{__sed} -E -i -e '1s,#!\s*/usr/bin/env\s+python3(\s|$),#!%{__python3}\1,' \
       src/bin/exactness/exactness_play.in \
@@ -538,7 +552,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/ecore_buffer/modules
 %dir %{_libdir}/ecore_buffer/modules/shm
 %dir %{_libdir}/ecore_buffer/modules/shm/%{arch_tag}
-%attr(755,root,root) %{_libdir}/ecore_buffer/modules/shm/v-1.27/module.so
+%attr(755,root,root) %{_libdir}/ecore_buffer/modules/shm/%{arch_tag}/module.so
 %dir %{_libdir}/ecore_con
 %dir %{_libdir}/ecore_con/utils
 %dir %{_libdir}/ecore_con/utils/%{arch_tag}
@@ -892,7 +906,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/*.pc
 %dir %{_datadir}/eo
 %{_datadir}/eo/gdb
-%{_datadir}/gdb/auto-load/usr/lib/libeo.so.1.27.0-gdb.py
+%{_datadir}/gdb/auto-load/usr/lib/libeo.so.%{version}-gdb.py
 %if %{with fb}
 %attr(755,root,root) %{_libdir}/libecore_fb.so
 %{_includedir}/ecore-fb-1

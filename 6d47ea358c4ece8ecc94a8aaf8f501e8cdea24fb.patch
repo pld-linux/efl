@@ -1,0 +1,1076 @@
+From 6d47ea358c4ece8ecc94a8aaf8f501e8cdea24fb Mon Sep 17 00:00:00 2001
+From: "Carsten Haitzler (Rasterman)" <raster@rasterman.com>
+Date: Mon, 5 May 2025 18:51:34 +0100
+Subject: [PATCH] tests+examples - fix more gcc 15 issues
+
+this "c23" move by default is just so wrong.
+---
+ src/examples/eldbus/server.c                  |  6 ++---
+ src/examples/elementary/win_example.c         |  2 +-
+ src/tests/ecore/ecore_suite.c                 |  2 +-
+ src/tests/ecore/ecore_test_timer.c            |  4 +--
+ src/tests/elementary/efl_ui_suite.h           |  4 +--
+ src/tests/elementary/efl_ui_test_atspi.c      |  2 +-
+ src/tests/elementary/efl_ui_test_box.c        |  2 +-
+ src/tests/elementary/efl_ui_test_box_flow.c   |  2 +-
+ src/tests/elementary/efl_ui_test_box_stack.c  |  2 +-
+ src/tests/elementary/efl_ui_test_callback.c   |  2 +-
+ src/tests/elementary/efl_ui_test_check.c      |  2 +-
+ src/tests/elementary/efl_ui_test_collection.c |  2 +-
+ .../elementary/efl_ui_test_collection_view.c  |  4 +--
+ src/tests/elementary/efl_ui_test_gesture.c    |  2 +-
+ src/tests/elementary/efl_ui_test_grid.c       |  2 +-
+ .../elementary/efl_ui_test_grid_collection.c  |  2 +-
+ src/tests/elementary/efl_ui_test_group_item.c |  2 +-
+ .../elementary/efl_ui_test_list_collection.c  |  2 +-
+ src/tests/elementary/efl_ui_test_popup.c      | 16 ++++++------
+ .../efl_ui_test_position_manager_common.c     |  6 ++---
+ .../elementary/efl_ui_test_progressbar.c      |  2 +-
+ .../elementary/efl_ui_test_radio_group.c      |  2 +-
+ src/tests/elementary/efl_ui_test_scroller.c   |  4 +--
+ src/tests/elementary/efl_ui_test_slider.c     |  6 ++---
+ src/tests/elementary/efl_ui_test_spin.c       |  2 +-
+ .../elementary/efl_ui_test_spin_button.c      |  2 +-
+ src/tests/elementary/efl_ui_test_table.c      |  2 +-
+ src/tests/elementary/efl_ui_test_text.c       | 26 +++++++++----------
+ src/tests/elementary/efl_ui_test_timepicker.c |  4 +--
+ src/tests/elementary/efl_ui_test_win.c        |  2 +-
+ src/tests/elementary/elm_suite.h              |  5 ++--
+ src/tests/elementary/elm_test_ctxpopup.c      |  2 +-
+ src/tests/elementary/elm_test_entry.c         |  2 +-
+ src/tests/elementary/elm_test_gengrid.c       |  2 +-
+ src/tests/elementary/elm_test_genlist.c       |  8 +++---
+ src/tests/elementary/elm_test_hoversel.c      |  4 +--
+ src/tests/elementary/elm_test_radio.c         |  2 +-
+ src/tests/elementary/elm_test_widget_basics.c |  4 +--
+ .../spec/efl_test_multi_selectable.c          | 16 ++++++------
+ .../spec/efl_test_single_selectable.c         |  2 +-
+ src/tests/elementary/spec/efl_ui_spec_suite.c |  2 +-
+ src/tests/elementary/spec/efl_ui_spec_suite.h |  2 +-
+ src/tests/elementary/suite_helpers.c          | 26 ++++++++++++-------
+ src/tests/elementary/suite_helpers.h          |  3 ++-
+ src/tests/evas/evas_test_evasgl.c             |  2 +-
+ 45 files changed, 105 insertions(+), 97 deletions(-)
+
+diff --git a/src/examples/eldbus/server.c b/src/examples/eldbus/server.c
+index 532ce4267ff..98f44913440 100644
+--- a/src/examples/eldbus/server.c
++++ b/src/examples/eldbus/server.c
+@@ -54,10 +54,10 @@ static Eldbus_Message *
+ _send_bool(const Eldbus_Service_Interface *iface EINA_UNUSED, const Eldbus_Message *msg)
+ {
+    Eldbus_Message *reply = eldbus_message_method_return_new(msg);
+-   Eina_Bool bool;
+-   if (!eldbus_message_arguments_get(msg, "b", &bool))
++   Eina_Bool b;
++   if (!eldbus_message_arguments_get(msg, "b", &b))
+      printf("eldbus_message_arguments_get() error\n");
+-   eldbus_message_arguments_append(reply, "b", bool);
++   eldbus_message_arguments_append(reply, "b", b);
+    return reply;
+ }
+ 
+diff --git a/src/examples/elementary/win_example.c b/src/examples/elementary/win_example.c
+index 26cd59cc906..48fb6025df8 100644
+--- a/src/examples/elementary/win_example.c
++++ b/src/examples/elementary/win_example.c
+@@ -171,7 +171,7 @@ _win_focused_cb(void *data, Evas_Object *obj EINA_UNUSED, void *event EINA_UNUSE
+ }
+ 
+ static Eina_Bool
+-key_down()
++key_down(void *data EINA_UNUSED, int ev EINA_UNUSED, void *info EINA_UNUSED)
+ {
+    elm_win_fullscreen_set(win2, 0);
+ 
+diff --git a/src/tests/ecore/ecore_suite.c b/src/tests/ecore/ecore_suite.c
+index a0f6d19aba4..f697d1b6085 100644
+--- a/src/tests/ecore/ecore_suite.c
++++ b/src/tests/ecore/ecore_suite.c
+@@ -38,7 +38,7 @@ static Ecore_Timer *timeout;
+ int timeout_reached = 0;
+ 
+ static Eina_Bool
+-timeout_cb()
++timeout_cb(void *data EINA_UNUSED)
+ {
+ #if CHECK_MINOR_VERSION >= 11
+    const char *tcname = tcase_name();
+diff --git a/src/tests/ecore/ecore_test_timer.c b/src/tests/ecore/ecore_test_timer.c
+index de4958738d2..88cf437141c 100644
+--- a/src/tests/ecore/ecore_test_timer.c
++++ b/src/tests/ecore/ecore_test_timer.c
+@@ -207,7 +207,7 @@ _timeri_cb(void *data)
+ }
+ 
+ static Eina_Bool
+-timeout_timer_cb()
++timeout_timer_cb(void *data EINA_UNUSED)
+ {
+    ck_abort();
+    return EINA_FALSE;
+@@ -359,7 +359,7 @@ EFL_START_TEST(ecore_test_timer_iteration)
+ EFL_END_TEST
+ 
+ static Eina_Bool
+-_recursion()
++_recursion(void *data EINA_UNUSED)
+ {
+    static unsigned int recurse = 0;
+    static Ecore_Timer *timer;
+diff --git a/src/tests/elementary/efl_ui_suite.h b/src/tests/elementary/efl_ui_suite.h
+index 4963b4a77c3..618822c68bf 100644
+--- a/src/tests/elementary/efl_ui_suite.h
++++ b/src/tests/elementary/efl_ui_suite.h
+@@ -64,6 +64,6 @@ void loop_timer_interval_set(Eo *obj, double in);
+ const Efl_Class* efl_ui_widget_realized_class_get(void);
+ #define WIDGET_CLASS efl_ui_widget_realized_class_get()
+ 
+-Eo *win_add();
+-Eo *win_add_focused();
++Eo *win_add(Evas_Object *parent, const char *title, Efl_Ui_Win_Type type);
++Eo *win_add_focused(Evas_Object *parent, const char *title, Efl_Ui_Win_Type type);
+ #endif
+diff --git a/src/tests/elementary/efl_ui_test_atspi.c b/src/tests/elementary/efl_ui_test_atspi.c
+index 68a88ec6c3b..e15fa0dfb5f 100644
+--- a/src/tests/elementary/efl_ui_test_atspi.c
++++ b/src/tests/elementary/efl_ui_test_atspi.c
+@@ -15,7 +15,7 @@ static Evas_Object *g_win, *g_btn, *g_bg;
+ 
+ void generate_app(void)
+ {
+-   g_win = win_add(NULL, "Title", ELM_WIN_BASIC);
++   g_win = win_add(NULL, "Title", EFL_UI_WIN_TYPE_BASIC);
+    efl_gfx_entity_position_set(g_win, EINA_POSITION2D(100, 100));
+    efl_gfx_entity_size_set(g_win, EINA_SIZE2D(100, 100));
+ 
+diff --git a/src/tests/elementary/efl_ui_test_box.c b/src/tests/elementary/efl_ui_test_box.c
+index 64133cdb8da..7b8aa253802 100644
+--- a/src/tests/elementary/efl_ui_test_box.c
++++ b/src/tests/elementary/efl_ui_test_box.c
+@@ -223,7 +223,7 @@ btn_geom_assert(Hint *hint, Eina_Rect btn_geom)
+ static void
+ layout_setup()
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", ELM_WIN_BASIC);
+ 
+    layout = efl_add(EFL_UI_BOX_CLASS, win);
+ }
+diff --git a/src/tests/elementary/efl_ui_test_box_flow.c b/src/tests/elementary/efl_ui_test_box_flow.c
+index 121e67324be..59f81528901 100644
+--- a/src/tests/elementary/efl_ui_test_box_flow.c
++++ b/src/tests/elementary/efl_ui_test_box_flow.c
+@@ -221,7 +221,7 @@ btn_geom_assert(Hint *hint, Eina_Rect btn_geom)
+ static void
+ layout_setup()
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", ELM_WIN_BASIC);
+ 
+    layout = efl_add(EFL_UI_BOX_FLOW_CLASS, win,
+                     efl_gfx_arrangement_content_align_set(efl_added, 0.8, 0.2),
+diff --git a/src/tests/elementary/efl_ui_test_box_stack.c b/src/tests/elementary/efl_ui_test_box_stack.c
+index d7fbc2b3be9..cbe57d6024d 100644
+--- a/src/tests/elementary/efl_ui_test_box_stack.c
++++ b/src/tests/elementary/efl_ui_test_box_stack.c
+@@ -130,7 +130,7 @@ btn_geom_assert(Hint *hint, Eina_Rect btn_geom)
+ static void
+ layout_setup()
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", ELM_WIN_BASIC);
+ 
+    layout = efl_add(EFL_UI_BOX_STACK_CLASS, win,
+                     efl_gfx_arrangement_content_align_set(efl_added, 0.8, 0.2),
+diff --git a/src/tests/elementary/efl_ui_test_callback.c b/src/tests/elementary/efl_ui_test_callback.c
+index 35f625455f4..d5be4669433 100644
+--- a/src/tests/elementary/efl_ui_test_callback.c
++++ b/src/tests/elementary/efl_ui_test_callback.c
+@@ -11,7 +11,7 @@ static Eo *win;
+ static void
+ callback_setup()
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", ELM_WIN_BASIC);
+ 
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(500, 50));
+ }
+diff --git a/src/tests/elementary/efl_ui_test_check.c b/src/tests/elementary/efl_ui_test_check.c
+index a013f93f102..7566fd612d8 100644
+--- a/src/tests/elementary/efl_ui_test_check.c
++++ b/src/tests/elementary/efl_ui_test_check.c
+@@ -10,7 +10,7 @@ static Eo *win, *check;
+ static void
+ check_setup()
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    check = efl_add(EFL_UI_CHECK_CLASS, win);
+ }
+diff --git a/src/tests/elementary/efl_ui_test_collection.c b/src/tests/elementary/efl_ui_test_collection.c
+index c645fba2106..7884038ee1b 100644
+--- a/src/tests/elementary/efl_ui_test_collection.c
++++ b/src/tests/elementary/efl_ui_test_collection.c
+@@ -11,7 +11,7 @@ static Eo* win;
+ static void
+ item_container_setup()
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ }
+ 
+ static void
+diff --git a/src/tests/elementary/efl_ui_test_collection_view.c b/src/tests/elementary/efl_ui_test_collection_view.c
+index 9e9f91b48e7..c19f58d89f4 100644
+--- a/src/tests/elementary/efl_ui_test_collection_view.c
++++ b/src/tests/elementary/efl_ui_test_collection_view.c
+@@ -76,7 +76,7 @@ EFL_START_TEST(test_efl_ui_collection_view_basic)
+    int count_realize = 0;
+    int count_unrealize = 0;
+ 
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(100, 100));
+ 
+    model = _make_model(win);
+@@ -116,7 +116,7 @@ EFL_START_TEST(test_efl_ui_collection_view_select)
+    Eina_Value *sel_val;
+    unsigned long sel = 10000;
+ 
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(100, 100));
+ 
+    model = _make_model(win);
+diff --git a/src/tests/elementary/efl_ui_test_gesture.c b/src/tests/elementary/efl_ui_test_gesture.c
+index 0805cd82ee5..fe3193c8b51 100644
+--- a/src/tests/elementary/efl_ui_test_gesture.c
++++ b/src/tests/elementary/efl_ui_test_gesture.c
+@@ -79,7 +79,7 @@ setup(void)
+ 
+    RESET;
+ 
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(1000, 1000));
+ 
+    rect = efl_add(EFL_CANVAS_RECTANGLE_CLASS, win);
+diff --git a/src/tests/elementary/efl_ui_test_grid.c b/src/tests/elementary/efl_ui_test_grid.c
+index db19e58d879..1928fc707e4 100644
+--- a/src/tests/elementary/efl_ui_test_grid.c
++++ b/src/tests/elementary/efl_ui_test_grid.c
+@@ -13,7 +13,7 @@ static Efl_Ui_Grid *grid;
+ static void
+ grid_setup()
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    grid = efl_add(EFL_UI_GRID_CLASS, win);
+ 
+diff --git a/src/tests/elementary/efl_ui_test_grid_collection.c b/src/tests/elementary/efl_ui_test_grid_collection.c
+index d0dad63c7dd..c0ac3bb23b9 100644
+--- a/src/tests/elementary/efl_ui_test_grid_collection.c
++++ b/src/tests/elementary/efl_ui_test_grid_collection.c
+@@ -13,7 +13,7 @@ item_container_setup()
+ {
+    Eo * list = efl_new(EFL_UI_POSITION_MANAGER_GRID_CLASS);
+    position_manager = efl_new(EFL_UI_POSITION_MANAGER_GRID_CLASS);
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    item_container = efl_add(EFL_UI_COLLECTION_CLASS, win,
+       efl_ui_collection_position_manager_set(efl_added, list));
+ 
+diff --git a/src/tests/elementary/efl_ui_test_group_item.c b/src/tests/elementary/efl_ui_test_group_item.c
+index 248ffcc2f89..41a52c644f3 100644
+--- a/src/tests/elementary/efl_ui_test_group_item.c
++++ b/src/tests/elementary/efl_ui_test_group_item.c
+@@ -12,7 +12,7 @@ static Eo *grid;
+ static void
+ create_ui(void)
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    grid = efl_add(EFL_UI_GRID_CLASS, win);
+ 
+ }
+diff --git a/src/tests/elementary/efl_ui_test_list_collection.c b/src/tests/elementary/efl_ui_test_list_collection.c
+index cdaca085f42..513960bf652 100644
+--- a/src/tests/elementary/efl_ui_test_list_collection.c
++++ b/src/tests/elementary/efl_ui_test_list_collection.c
+@@ -13,7 +13,7 @@ item_container_setup()
+ {
+    Eo * list = efl_new(EFL_UI_POSITION_MANAGER_LIST_CLASS);
+    position_manager = efl_new(EFL_UI_POSITION_MANAGER_LIST_CLASS);
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    item_container = efl_add(EFL_UI_COLLECTION_CLASS, win,
+       efl_ui_collection_position_manager_set(efl_added, list));
+    efl_content_set(win, item_container);
+diff --git a/src/tests/elementary/efl_ui_test_popup.c b/src/tests/elementary/efl_ui_test_popup.c
+index d15df256c22..e96c59f30a9 100644
+--- a/src/tests/elementary/efl_ui_test_popup.c
++++ b/src/tests/elementary/efl_ui_test_popup.c
+@@ -32,7 +32,7 @@ _popup_alert_setup(const Efl_Class *klass)
+ {
+    Eo *win, *popup;
+ 
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(WIN_SIZE, WIN_SIZE));
+ 
+    popup = efl_add(klass, win);
+@@ -62,7 +62,7 @@ EFL_START_TEST(efl_ui_test_popup_basic_align)
+ {
+    Eo *win, *popup;
+ 
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(WIN_SIZE, WIN_SIZE));
+ 
+    popup = efl_add(EFL_UI_POPUP_CLASS, win);
+@@ -146,7 +146,7 @@ EFL_START_TEST(efl_ui_test_popup_basic_sizing)
+ {
+    Eo *win, *popup;
+ 
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(WIN_SIZE, WIN_SIZE));
+ 
+    popup = efl_add(EFL_UI_POPUP_CLASS, win);
+@@ -171,14 +171,14 @@ EFL_START_TEST(efl_ui_test_popup_events)
+    Eo *win, *popup;
+    int called = 0;
+ 
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(WIN_SIZE, WIN_SIZE));
+ 
+    popup = efl_add(EFL_UI_POPUP_CLASS, win);
+ 
+    efl_event_callback_add(popup, EFL_UI_POPUP_EVENT_BACKWALL_CLICKED,
+      (void*)event_callback_single_call_int_data, &called);
+-   efl_event_callback_add(popup, EFL_UI_POPUP_EVENT_TIMEOUT, event_callback_that_quits_the_main_loop_when_called, NULL);
++   efl_event_callback_add(popup, EFL_UI_POPUP_EVENT_TIMEOUT, event_callback_that_quits_the_main_loop_when_called_efl, NULL);
+    efl_gfx_hint_size_min_set(popup, EINA_SIZE2D(POPUP_SIZE, POPUP_SIZE));
+ 
+    Eo *btn = efl_add(EFL_UI_BUTTON_CLASS, popup);
+@@ -213,7 +213,7 @@ EFL_START_TEST(efl_ui_test_popup_backwall_img)
+    Eo *win, *popup;
+    char buf[PATH_MAX];
+ 
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(WIN_SIZE, WIN_SIZE));
+ 
+    popup = efl_add(EFL_UI_POPUP_CLASS, win);
+@@ -239,7 +239,7 @@ EFL_START_TEST(efl_ui_test_popup_alert)
+    Eina_Size2D layout_sz_min;
+    int called;
+ 
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(WIN_SIZE, WIN_SIZE));
+ 
+    popup = efl_add(EFL_UI_ALERT_POPUP_CLASS, win);
+@@ -758,7 +758,7 @@ EFL_START_TEST(efl_ui_test_popup_text_anchor)
+    char buf[PATH_MAX];
+    int i, num_anchors = 6;
+ 
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(WIN_SIZE, WIN_SIZE));
+ 
+    layout = efl_add(EFL_UI_LAYOUT_CLASS, win);
+diff --git a/src/tests/elementary/efl_ui_test_position_manager_common.c b/src/tests/elementary/efl_ui_test_position_manager_common.c
+index ea73d01e4ea..dbfa181ac3d 100644
+--- a/src/tests/elementary/efl_ui_test_position_manager_common.c
++++ b/src/tests/elementary/efl_ui_test_position_manager_common.c
+@@ -14,13 +14,13 @@ static Eina_Array *arr_obj;
+ static Eina_Inarray *arr_size;
+ 
+ static void
+-item_container_setup()
++item_container_setup(void)
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ }
+ 
+ static void
+-item_container_teardown()
++item_container_teardown(void)
+ {
+    win = NULL;
+ }
+diff --git a/src/tests/elementary/efl_ui_test_progressbar.c b/src/tests/elementary/efl_ui_test_progressbar.c
+index bf2f9614034..e40b90df882 100644
+--- a/src/tests/elementary/efl_ui_test_progressbar.c
++++ b/src/tests/elementary/efl_ui_test_progressbar.c
+@@ -10,7 +10,7 @@ static Eo *win, *pb;
+ static void
+ check_setup()
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    pb = efl_add(EFL_UI_PROGRESSBAR_CLASS, win);
+ }
+diff --git a/src/tests/elementary/efl_ui_test_radio_group.c b/src/tests/elementary/efl_ui_test_radio_group.c
+index cf017bdc249..f49df1fa515 100644
+--- a/src/tests/elementary/efl_ui_test_radio_group.c
++++ b/src/tests/elementary/efl_ui_test_radio_group.c
+@@ -34,7 +34,7 @@ _group_value_changed_cb(void *data EINA_UNUSED, const Efl_Event *ev)
+ static void
+ check_setup()
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    radio_group = efl_new(EFL_UI_RADIO_GROUP_IMPL_CLASS, NULL);
+    efl_event_callback_add(radio_group, EFL_UI_RADIO_GROUP_EVENT_VALUE_CHANGED, _group_value_changed_cb, NULL);
+ }
+diff --git a/src/tests/elementary/efl_ui_test_scroller.c b/src/tests/elementary/efl_ui_test_scroller.c
+index 78f8bfaf7f7..14d03c65252 100644
+--- a/src/tests/elementary/efl_ui_test_scroller.c
++++ b/src/tests/elementary/efl_ui_test_scroller.c
+@@ -19,7 +19,7 @@ EFL_START_TEST(efl_ui_test_scroller_events)
+ {
+    Eo *sc, *sc2, *sc3, *bx, *bx2, *gd, *gd2;
+    int i, j, called = 0, called2 = 0, called3 = 0;
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(500, 500));
+ 
+ 
+@@ -148,7 +148,7 @@ EFL_START_TEST(efl_ui_test_scroller_scrollbar)
+ {
+    Eo *sc;
+ 
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    Eina_Bool hbar_visible = EINA_FALSE, vbar_visible = EINA_FALSE;
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(500, 500));
+ 
+diff --git a/src/tests/elementary/efl_ui_test_slider.c b/src/tests/elementary/efl_ui_test_slider.c
+index ac348a0e00e..a235e4ff0c1 100644
+--- a/src/tests/elementary/efl_ui_test_slider.c
++++ b/src/tests/elementary/efl_ui_test_slider.c
+@@ -26,7 +26,7 @@ EFL_START_TEST(efl_ui_test_slider_events)
+ {
+    Eo *slider;
+    Evas *e;
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(400, 100));
+    slider = efl_add(EFL_UI_SLIDER_CLASS, win,
+@@ -62,7 +62,7 @@ EFL_START_TEST(efl_ui_test_slider_step)
+ {
+    Eo *slider;
+    Evas *e;
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(400, 100));
+    slider = efl_add(EFL_UI_SLIDER_CLASS, win,
+@@ -101,7 +101,7 @@ EFL_START_TEST(efl_ui_test_slider_step_drag)
+ {
+    Eo *slider;
+    Evas *e;
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    efl_gfx_entity_size_set(win, EINA_SIZE2D(400, 100));
+    slider = efl_add(EFL_UI_SLIDER_CLASS, win,
+diff --git a/src/tests/elementary/efl_ui_test_spin.c b/src/tests/elementary/efl_ui_test_spin.c
+index 3bbb551a7f7..9b7495da547 100644
+--- a/src/tests/elementary/efl_ui_test_spin.c
++++ b/src/tests/elementary/efl_ui_test_spin.c
+@@ -10,7 +10,7 @@ static Eo *win, *spin;
+ static void
+ spin_setup()
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    spin = efl_add(EFL_UI_SPIN_CLASS, win);
+    efl_content_set(win, spin);
+diff --git a/src/tests/elementary/efl_ui_test_spin_button.c b/src/tests/elementary/efl_ui_test_spin_button.c
+index 6df99b340f6..051c12b8039 100644
+--- a/src/tests/elementary/efl_ui_test_spin_button.c
++++ b/src/tests/elementary/efl_ui_test_spin_button.c
+@@ -12,7 +12,7 @@ static Eo *win, *spin;
+ static void
+ spin_setup()
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    spin = efl_add(EFL_UI_SPIN_BUTTON_CLASS, win);
+    efl_content_set(win, spin);
+diff --git a/src/tests/elementary/efl_ui_test_table.c b/src/tests/elementary/efl_ui_test_table.c
+index 0f7c2365c07..83fe2dbb270 100644
+--- a/src/tests/elementary/efl_ui_test_table.c
++++ b/src/tests/elementary/efl_ui_test_table.c
+@@ -249,7 +249,7 @@ btn_geom_assert(Hint *hint, Eina_Rect btn_geom)
+ static void
+ layout_setup()
+ {
+-   win = win_add();
++   win = win_add(NULL, "win", ELM_WIN_BASIC);
+ 
+    layout = efl_add(EFL_UI_TABLE_CLASS, win);
+ }
+diff --git a/src/tests/elementary/efl_ui_test_text.c b/src/tests/elementary/efl_ui_test_text.c
+index 521bf1339c9..73f06f552c4 100644
+--- a/src/tests/elementary/efl_ui_test_text.c
++++ b/src/tests/elementary/efl_ui_test_text.c
+@@ -17,7 +17,7 @@ increment_int_changed(void *data EINA_UNUSED, const Efl_Event *ev EINA_UNUSED)
+ EFL_START_TEST(text_cnp)
+ {
+    Eo *txt;
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    int i_copy = 0, i_paste = 0, i_cut = 0;
+ 
+@@ -65,7 +65,7 @@ _stop_event_soon(void *data EINA_UNUSED, const Efl_Event *ev)
+ EFL_START_TEST(text_all_select_all_unselect)
+ {
+    Eo *txt, *txt2;
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    int i_have_selection = 0, i_selection = 0;
+ 
+@@ -141,7 +141,7 @@ EFL_END_TEST
+ EFL_START_TEST(text_selection)
+ {
+    Eo *txt;
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    txt = efl_add(EFL_UI_TEXTBOX_CLASS, win);
+    efl_event_callback_priority_add(txt, EFL_UI_SELECTION_EVENT_WM_SELECTION_CHANGED, EFL_CALLBACK_PRIORITY_BEFORE, _stop_event_soon, NULL);
+@@ -178,7 +178,7 @@ user_changed(void *data, const Efl_Event *ev)
+ EFL_START_TEST(text_user_change)
+ {
+    Eo *txt;
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    Efl_Text_Change_Info info = {0};
+    txt = efl_add(EFL_UI_TEXTBOX_CLASS, win,
+                 efl_event_callback_add(efl_added, EFL_TEXT_INTERACTIVE_EVENT_CHANGED_USER, user_changed, &info)
+@@ -198,7 +198,7 @@ EFL_END_TEST
+ EFL_START_TEST(text_scroll_mode)
+ {
+    Eo *txt, *win, *cur;
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    txt = efl_add(EFL_UI_TEXTBOX_CLASS, win);
+    efl_event_callback_priority_add(txt, EFL_UI_SELECTION_EVENT_WM_SELECTION_CHANGED, EFL_CALLBACK_PRIORITY_BEFORE, _stop_event_soon, NULL);
+    cur = efl_text_interactive_main_cursor_get(txt);
+@@ -220,7 +220,7 @@ EFL_END_TEST
+ EFL_START_TEST(text_change_event)
+ {
+    Eo *txt;
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    txt = efl_add(EFL_UI_TEXTBOX_CLASS, win);
+    efl_event_callback_priority_add(txt, EFL_UI_SELECTION_EVENT_WM_SELECTION_CHANGED, EFL_CALLBACK_PRIORITY_BEFORE, _stop_event_soon, NULL);
+@@ -245,7 +245,7 @@ EFL_END_TEST
+ EFL_START_TEST(text_keys_handler)
+ {
+    Eo *txt;
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    txt = efl_add(EFL_UI_TEXTBOX_CLASS, win);
+    efl_event_callback_priority_add(txt, EFL_UI_SELECTION_EVENT_WM_SELECTION_CHANGED, EFL_CALLBACK_PRIORITY_BEFORE, _stop_event_soon, NULL);
+@@ -283,7 +283,7 @@ EFL_END_TEST
+ EFL_START_TEST(text_editable)
+ {
+    Eo *txt, *win;
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    txt = efl_add(EFL_UI_TEXTBOX_CLASS, win);
+    efl_text_font_size_set(txt, 100);
+    efl_text_font_family_set(txt, "Arial");
+@@ -303,7 +303,7 @@ EFL_END_TEST
+ EFL_START_TEST(text_on_startup)
+ {
+    Eo *txt, *win;
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    unsigned char r,g,b,a;
+    txt = efl_add(EFL_UI_TEXTBOX_CLASS, win,
+                efl_text_color_set(efl_added, 0, 255, 0, 255),
+@@ -328,7 +328,7 @@ EFL_START_TEST(text_multiline_selection)
+    Eo *txt, *win;
+    Eo *cursor1, *cursor2;
+    Eina_Rect rc1, rc2;
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    txt = efl_add(EFL_UI_TEXTBOX_CLASS, win);
+    efl_text_markup_set(txt, "p1<ps/>p2<ps/>p3");
+    efl_text_multiline_set(txt, EINA_FALSE);
+@@ -350,7 +350,7 @@ EFL_START_TEST(text_singleline_cursor_movement)
+    Eo *txt, *win;
+    Eo *cursor;
+    Eina_Rect rc1, rc2;
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    txt = efl_add(EFL_UI_TEXTBOX_CLASS, win);
+    efl_text_markup_set(txt, "p1<ps>p<b>2</b>2<ps>p3");
+    efl_text_multiline_set(txt, EINA_FALSE);
+@@ -407,7 +407,7 @@ EFL_START_TEST(text_multiline_singleline_cursor_pos)
+    Eo *txt, *win;
+    Eo *cursor, *cursor1, *cursor2;
+    Eina_Rect rc1, rc2;
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    txt = efl_add(EFL_UI_TEXTBOX_CLASS, win);
+    efl_text_markup_set(txt, "p1<ps>p<b>2</b>2<ps>p3<ps>");
+    cursor = efl_text_interactive_main_cursor_get(txt);
+@@ -488,7 +488,7 @@ EFL_START_TEST(text_keyboard_mouse_cluster_cursor_movement)
+ {
+    Eo *txt;
+    Eo *cursor;
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    Evas *e;
+    Eina_Rect rc, rc2;
+ 
+diff --git a/src/tests/elementary/efl_ui_test_timepicker.c b/src/tests/elementary/efl_ui_test_timepicker.c
+index 1aca88cc237..aa003488751 100644
+--- a/src/tests/elementary/efl_ui_test_timepicker.c
++++ b/src/tests/elementary/efl_ui_test_timepicker.c
+@@ -8,7 +8,7 @@
+ 
+ EFL_START_TEST(check_all_times)
+ {
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", ELM_WIN_BASIC);
+    Eo *timepicker = efl_add(EFL_UI_TIMEPICKER_CLASS, win);
+ 
+    for (int min = 0; min < 60; ++min)
+@@ -23,7 +23,7 @@ EFL_END_TEST
+ 
+ EFL_START_TEST(check_all_times_24_mode)
+ {
+-   Eo *win = win_add();
++   Eo *win = win_add(NULL, "win", ELM_WIN_BASIC);
+    Eo *timepicker = efl_add(EFL_UI_TIMEPICKER_CLASS, win,
+                             efl_ui_timepicker_is_24hour_set(efl_added, EINA_TRUE));
+ 
+diff --git a/src/tests/elementary/efl_ui_test_win.c b/src/tests/elementary/efl_ui_test_win.c
+index 2d893be5bb9..5bb65607022 100644
+--- a/src/tests/elementary/efl_ui_test_win.c
++++ b/src/tests/elementary/efl_ui_test_win.c
+@@ -438,7 +438,7 @@ EFL_START_TEST(efl_ui_win_test_type)
+ {
+    Efl_Ui_Win *win;
+ 
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+ 
+    ck_assert_int_eq(efl_ui_win_type_get(win), EFL_UI_WIN_TYPE_BASIC);
+ }
+diff --git a/src/tests/elementary/elm_suite.h b/src/tests/elementary/elm_suite.h
+index 67f5d0d5c41..60046c020ec 100644
+--- a/src/tests/elementary/elm_suite.h
++++ b/src/tests/elementary/elm_suite.h
+@@ -17,6 +17,7 @@
+ 
+ #include <Evas.h>
+ #include <Ecore.h>
++#include <Elementary.h>
+ #include "suite_helpers.h"
+ 
+ void elm_test_config(TCase *tc);
+@@ -99,8 +100,8 @@ void elm_code_test_widget_text(TCase *tc);
+ void elm_code_test_widget_selection(TCase *tc);
+ void elm_code_test_widget_undo(TCase *tc);
+ 
+-Evas_Object *win_add();
+-Evas_Object *win_add_focused();
++Evas_Object *win_add(Evas_Object *parent, const char *title, Elm_Win_Type type);
++Evas_Object *win_add_focused(Evas_Object *parent, const char *title, Elm_Win_Type type);
+ 
+ Eo *timer_add(double in, Ecore_Task_Cb cb, void *data);
+ 
+diff --git a/src/tests/elementary/elm_test_ctxpopup.c b/src/tests/elementary/elm_test_ctxpopup.c
+index a6f74de6769..a45d01d2fa9 100644
+--- a/src/tests/elementary/elm_test_ctxpopup.c
++++ b/src/tests/elementary/elm_test_ctxpopup.c
+@@ -57,7 +57,7 @@ EFL_START_TEST(elm_ctxpopup_test_sizing)
+    Eo *win, *bt, *ctx;
+    int pass = 0;
+ 
+-   win = win_add();
++   win = win_add(NULL, "win", ELM_WIN_BASIC);
+    bt = elm_button_add(win);
+    ctx = elm_ctxpopup_add(win);
+    evas_object_smart_callback_add(ctx, "geometry,update", _geometry_update, &pass);
+diff --git a/src/tests/elementary/elm_test_entry.c b/src/tests/elementary/elm_test_entry.c
+index 85ada68a494..b7250b7aa9f 100644
+--- a/src/tests/elementary/elm_test_entry.c
++++ b/src/tests/elementary/elm_test_entry.c
+@@ -394,7 +394,7 @@ EFL_START_TEST(elm_atspi_role_get)
+ EFL_END_TEST
+ 
+ static Eina_Bool
+-end_test()
++end_test(void *data EINA_UNUSED)
+ {
+    ecore_main_loop_quit();
+    return EINA_FALSE;
+diff --git a/src/tests/elementary/elm_test_gengrid.c b/src/tests/elementary/elm_test_gengrid.c
+index 77a4eb46f7f..402f1fa2ed5 100644
+--- a/src/tests/elementary/elm_test_gengrid.c
++++ b/src/tests/elementary/elm_test_gengrid.c
+@@ -106,7 +106,7 @@ EFL_START_TEST(elm_gengrid_focus)
+    Evas_Object *win, *grid, *bx, *bt;
+    Elm_Object_Item *it;
+ 
+-   win = win_add_focused();
++   win = win_add_focused(NULL, "win", ELM_WIN_BASIC);
+ 
+    bx = elm_box_add(win);
+    evas_object_size_hint_weight_set(bx, EVAS_HINT_EXPAND, EVAS_HINT_EXPAND);
+diff --git a/src/tests/elementary/elm_test_genlist.c b/src/tests/elementary/elm_test_genlist.c
+index 81eca40d813..6ea3e19f0c1 100644
+--- a/src/tests/elementary/elm_test_genlist.c
++++ b/src/tests/elementary/elm_test_genlist.c
+@@ -358,19 +358,19 @@ EFL_END_TEST
+ static int it_del = 0;
+ 
+ static void
+-_gl_destroy()
++_gl_destroy(void *data EINA_UNUSED, const Efl_Event *ev EINA_UNUSED)
+ {
+    ck_assert_int_eq(it_del, 2);
+ }
+ 
+ static void
+-_it_destroy()
++_it_destroy(void *data EINA_UNUSED, const Efl_Event *ev EINA_UNUSED)
+ {
+    it_del++;
+ }
+ 
+ static void
+-_it_del()
++_it_del(void *data EINA_UNUSED, const Efl_Event *ev EINA_UNUSED)
+ {
+    it_del = 1;
+ }
+@@ -461,7 +461,7 @@ genlist_tree_test_expand(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, v
+ }
+ 
+ static void
+-_do_quit()
++_do_quit(void *data EINA_UNUSED)
+ {
+    itc.func.content_get = NULL;
+    ecore_main_loop_quit();
+diff --git a/src/tests/elementary/elm_test_hoversel.c b/src/tests/elementary/elm_test_hoversel.c
+index e00a073b09e..d53f7c69e10 100644
+--- a/src/tests/elementary/elm_test_hoversel.c
++++ b/src/tests/elementary/elm_test_hoversel.c
+@@ -46,7 +46,7 @@ EFL_END_TEST
+ 
+ EFL_START_TEST(elm_test_hoversel_behavior)
+ {
+-   Eo *hoversel, *win = win_add();
++   Eo *hoversel, *win = win_add(NULL, "win", ELM_WIN_BASIC);
+    unsigned int i;
+    const char *callbacks[] =
+    {
+@@ -110,7 +110,7 @@ EFL_END_TEST
+ 
+ EFL_START_TEST(elm_test_hoversel_position)
+ {
+-   Eo *hoversel, *win = win_add();
++   Eo *hoversel, *win = win_add(NULL, "win", ELM_WIN_BASIC);
+ 
+    evas_object_resize(win, 500, 500);
+    hoversel = elm_hoversel_add(win);
+diff --git a/src/tests/elementary/elm_test_radio.c b/src/tests/elementary/elm_test_radio.c
+index 677fdb0b1ec..0859cb70075 100644
+--- a/src/tests/elementary/elm_test_radio.c
++++ b/src/tests/elementary/elm_test_radio.c
+@@ -44,7 +44,7 @@ EFL_END_TEST
+ static unsigned int radio_change_count = 0;
+ 
+ static void
+-_rdg_changed_cb()
++_rdg_changed_cb(void *data EINA_UNUSED, Evas_Object *o EINA_UNUSED, void *info EINA_UNUSED)
+ {
+    radio_change_count++;
+    ecore_main_loop_quit();
+diff --git a/src/tests/elementary/elm_test_widget_basics.c b/src/tests/elementary/elm_test_widget_basics.c
+index 38ef46efd9c..0333c0d2982 100644
+--- a/src/tests/elementary/elm_test_widget_basics.c
++++ b/src/tests/elementary/elm_test_widget_basics.c
+@@ -80,7 +80,7 @@ static const Simple_Test_Widget simple_widgets[] = {
+ EFL_START_TEST(elm_test_widget_creation_easy)
+ {
+    Evas_Object *win, *o;
+-   win = win_add();
++   win = win_add(NULL, "win", ELM_WIN_BASIC);
+ 
+    evas_object_resize(win, 200, 200);
+    evas_object_show(win);
+@@ -102,7 +102,7 @@ EFL_START_TEST(elm_test_widget_creation_error_parent)
+    Evas_Object *win, *o, *parent;
+    Evas *evas;
+ 
+-   win = win_add();
++   win = win_add(NULL, "win", ELM_WIN_BASIC);
+    evas = evas_object_evas_get(win);
+    evas_object_resize(win, 200, 200);
+    evas_object_show(win);
+diff --git a/src/tests/elementary/spec/efl_test_multi_selectable.c b/src/tests/elementary/spec/efl_test_multi_selectable.c
+index 3a02ed9e16c..1a869da8506 100644
+--- a/src/tests/elementary/spec/efl_test_multi_selectable.c
++++ b/src/tests/elementary/spec/efl_test_multi_selectable.c
+@@ -38,7 +38,7 @@ EFL_START_TEST(test_multi_select)
+    Eina_Array *arr_selected;
+    efl_ui_multi_selectable_select_mode_set(widget, EFL_UI_SELECT_MODE_MULTI);
+    efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, (void*) event_callback_single_call_int_data, &c);
+-   efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called, NULL);
++   efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called_efl, NULL);
+ 
+    efl_ui_selectable_selected_set(efl_pack_content_get(widget, 0), EINA_TRUE);
+    if (c == 0) efl_loop_begin(efl_main_loop_get());
+@@ -61,7 +61,7 @@ EFL_START_TEST(test_multi_select)
+    ck_assert_int_eq(c, 0);
+ 
+    efl_event_callback_del(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, (void*) event_callback_single_call_int_data, &c);
+-   efl_event_callback_del(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called, NULL);
++   efl_event_callback_del(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called_efl, NULL);
+    eina_array_free(arr_selected);
+ }
+ EFL_END_TEST
+@@ -72,7 +72,7 @@ EFL_START_TEST(test_multi_select_removal)
+    Eina_Array *arr_selected;
+    efl_ui_multi_selectable_select_mode_set(widget, EFL_UI_SELECT_MODE_MULTI);
+    efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, (void*) event_callback_single_call_int_data, &c);
+-   efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called, NULL);
++   efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called_efl, NULL);
+ 
+    efl_ui_selectable_selected_set(efl_pack_content_get(widget, 0), EINA_TRUE);
+    c = 0;
+@@ -91,7 +91,7 @@ EFL_START_TEST(test_multi_select_removal)
+    _iterator_to_array(&arr_selected, efl_ui_multi_selectable_selected_iterator_new(widget));
+    ck_assert_int_eq(eina_array_count(arr_selected), 0);
+    efl_event_callback_del(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, (void*) event_callback_single_call_int_data, &c);
+-   efl_event_callback_del(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called, NULL);
++   efl_event_callback_del(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called_efl, NULL);
+    eina_array_free(arr_selected);
+ }
+ EFL_END_TEST
+@@ -103,7 +103,7 @@ EFL_START_TEST(test_single_select)
+ 
+    efl_ui_multi_selectable_select_mode_set(widget, EFL_UI_SELECT_MODE_SINGLE);
+    efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, (void*) event_callback_single_call_int_data, &c);
+-   efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called, NULL);
++   efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called_efl, NULL);
+ 
+    efl_ui_selectable_selected_set(efl_pack_content_get(widget, 0), EINA_TRUE);
+    if (c == 0) efl_loop_begin(efl_main_loop_get());
+@@ -124,7 +124,7 @@ EFL_START_TEST(test_single_select)
+    ck_assert_int_eq(c, 0);
+ 
+    efl_event_callback_del(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, (void*) event_callback_single_call_int_data, &c);
+-   efl_event_callback_del(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called, NULL);
++   efl_event_callback_del(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called_efl, NULL);
+    eina_array_free(arr_selected);
+ }
+ EFL_END_TEST
+@@ -136,7 +136,7 @@ EFL_START_TEST(test_none_select)
+ 
+    efl_ui_multi_selectable_select_mode_set(widget, EFL_UI_SELECT_MODE_NONE);
+    efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, (void*) event_callback_single_call_int_data, &c);
+-   efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called, NULL);
++   efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called_efl, NULL);
+ 
+    efl_ui_selectable_selected_set(efl_pack_content_get(widget, 0), EINA_TRUE);
+    get_me_to_those_events(widget);
+@@ -150,7 +150,7 @@ EFL_START_TEST(test_none_select)
+    _iterator_to_array(&arr_selected, efl_ui_multi_selectable_selected_iterator_new(widget));
+    ck_assert_int_eq(eina_array_count(arr_selected), 0);
+    efl_event_callback_del(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, (void*) event_callback_single_call_int_data, &c);
+-   efl_event_callback_del(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called, NULL);
++   efl_event_callback_del(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called_efl, NULL);
+    eina_array_free(arr_selected);
+ }
+ EFL_END_TEST
+diff --git a/src/tests/elementary/spec/efl_test_single_selectable.c b/src/tests/elementary/spec/efl_test_single_selectable.c
+index b4873ae7cb4..d5d48e75fb7 100644
+--- a/src/tests/elementary/spec/efl_test_single_selectable.c
++++ b/src/tests/elementary/spec/efl_test_single_selectable.c
+@@ -38,7 +38,7 @@ EFL_START_TEST(last_selectable_check)
+    int c = 0;
+ 
+    efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, (void*) event_callback_single_call_int_data, &c);
+-   efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called, NULL);
++   efl_event_callback_add(widget, EFL_UI_SELECTABLE_EVENT_SELECTION_CHANGED, event_callback_that_quits_the_main_loop_when_called_efl, NULL);
+ 
+    Eo *c1 = efl_pack_content_get(widget, 0);
+    Eo *c2 = efl_pack_content_get(widget, 2);
+diff --git a/src/tests/elementary/spec/efl_ui_spec_suite.c b/src/tests/elementary/spec/efl_ui_spec_suite.c
+index 49ca5a993f1..8bc7bfdd1ef 100644
+--- a/src/tests/elementary/spec/efl_ui_spec_suite.c
++++ b/src/tests/elementary/spec/efl_ui_spec_suite.c
+@@ -29,7 +29,7 @@ _setup_window_and_widget(const Efl_Class *klass, const Efl_Class *content_klass)
+ 
+    test_content_klass = content_klass;
+    widget_klass = klass;
+-   win = win_add();
++   win = win_add(NULL, "win", EFL_UI_WIN_TYPE_BASIC);
+    widget = efl_add(klass, win);
+    ck_assert(efl_content_set(win, widget));
+ 
+diff --git a/src/tests/elementary/spec/efl_ui_spec_suite.h b/src/tests/elementary/spec/efl_ui_spec_suite.h
+index 463f44dc70d..cf3d18054d9 100644
+--- a/src/tests/elementary/spec/efl_ui_spec_suite.h
++++ b/src/tests/elementary/spec/efl_ui_spec_suite.h
+@@ -33,7 +33,7 @@ Efl_Ui_Widget* efl_test_parent_get(Eo *obj);
+ 
+ Eo* create_test_widget(void);
+ 
+-Eo * win_add();
++Eo * win_add(Eo *parent, const char *title, Efl_Ui_Win_Type type);
+ 
+ const Efl_Class* efl_ui_widget_realized_class_get(void);
+ 
+diff --git a/src/tests/elementary/suite_helpers.c b/src/tests/elementary/suite_helpers.c
+index 62fe6deb771..bbd7c6e52e5 100644
+--- a/src/tests/elementary/suite_helpers.c
++++ b/src/tests/elementary/suite_helpers.c
+@@ -145,7 +145,7 @@ real_timer_add(double in, Ecore_Task_Cb cb, void *data)
+ }
+ 
+ static Eina_Bool
+-_timer_quit()
++_timer_quit(void *data EINA_UNUSED)
+ {
+    ecore_main_loop_quit();
+    return EINA_FALSE;
+@@ -208,13 +208,13 @@ _ui_win_visibility_change(void *data EINA_UNUSED, const Efl_Event *ev)
+ EFL_CLASS_SIMPLE_CLASS(efl_loop, "Efl.Loop", EFL_LOOP_CLASS)
+ 
+ static Evas_Object *
+-_elm_suite_win_create(void)
++_elm_suite_win_create(Evas_Object *parent, const char *title, Elm_Win_Type type)
+ {
+    Evas_Object *win;
+    Eo *loop, *timer;
+ 
+    if (legacy_mode)
+-     win = elm_win_add(NULL, "elm_suite", ELM_WIN_BASIC);
++     win = elm_win_add(parent, title, type);
+    else
+      win = efl_add(EFL_UI_WIN_CLASS, efl_main_loop_get());
+    if (!buffer) return win;
+@@ -243,7 +243,7 @@ _elm_suite_win_create(void)
+ #define TEST_FONT_DIR TESTS_SRC_DIR "/fonts/"
+ 
+ Evas_Object *
+-win_add(void)
++win_add(Evas_Object *parent, const char *title, Elm_Win_Type type)
+ {
+    static Eina_Bool font_path = EINA_FALSE;
+ 
+@@ -256,7 +256,7 @@ win_add(void)
+      {
+         if (global_win) return global_win;
+      }
+-   return _elm_suite_win_create();
++   return _elm_suite_win_create(parent, title, type);
+ }
+ 
+ static void
+@@ -273,7 +273,7 @@ force_focus_win(Evas_Object *win)
+ }
+ 
+ Evas_Object *
+-win_add_focused()
++win_add_focused(Evas_Object *parent, const char *title, Elm_Win_Type type)
+ {
+    Evas_Object *win;
+ 
+@@ -282,7 +282,7 @@ win_add_focused()
+         if (global_win) return global_win;
+      }
+ 
+-   win = _elm_suite_win_create();
++   win = _elm_suite_win_create(parent, title, type);
+    force_focus_win(win);
+    return win;
+ }
+@@ -339,7 +339,7 @@ suite_setup(Eina_Bool legacy)
+    failed_count += !elm_init(1, args);
+    if (buffer)
+      {
+-        global_win = _elm_suite_win_create();
++        global_win = _elm_suite_win_create(NULL, "efl_wuite", ELM_WIN_BASIC);
+         force_focus_win(global_win);
+         if (suite_setup_cb) suite_setup_cb(global_win);
+      }
+@@ -412,7 +412,7 @@ fail_on_errors_setup(void)
+ }
+ 
+ static void
+-next_event_job()
++next_event_job(void *data EINA_UNUSED)
+ {
+    ecore_main_loop_quit();
+ }
+@@ -614,7 +614,13 @@ event_callback_that_increments_an_int_when_called(void *data, Evas_Object *obj E
+ }
+ 
+ void
+-event_callback_that_quits_the_main_loop_when_called()
++event_callback_that_quits_the_main_loop_when_called(void *data EINA_UNUSED, Evas_Object *obj EINA_UNUSED, void *info EINA_UNUSED)
++{
++   ecore_main_loop_quit();
++}
++
++void
++event_callback_that_quits_the_main_loop_when_called_efl(void *data EINA_UNUSED, const Efl_Event *ev EINA_UNUSED)
+ {
+    ecore_main_loop_quit();
+ }
+diff --git a/src/tests/elementary/suite_helpers.h b/src/tests/elementary/suite_helpers.h
+index 7e5a0ad1054..b6e3c03ff37 100644
+--- a/src/tests/elementary/suite_helpers.h
++++ b/src/tests/elementary/suite_helpers.h
+@@ -43,7 +43,8 @@ void wheel_object(Eo *obj, Eina_Bool horiz, Eina_Bool down);
+ void wheel_part(Eo *obj, const char *part, Eina_Bool horiz, Eina_Bool down);
+ void wheel_object_at(Eo *obj, int x, int y, Eina_Bool horiz, Eina_Bool down);
+ void event_callback_single_call_int_data(void *data, Evas_Object *obj EINA_UNUSED, void *event_info EINA_UNUSED);
+-void event_callback_that_quits_the_main_loop_when_called();
++void event_callback_that_quits_the_main_loop_when_called(void *data, Evas_Object *obj, void *info);
++void event_callback_that_quits_the_main_loop_when_called_efl(void *data, const Efl_Event *ev);
+ void event_callback_that_increments_an_int_when_called(void *data, Evas_Object *obj, void *event_info);
+ void smart_callback_that_stores_event_info_to_data(void *data, Evas_Object *obj EINA_UNUSED, void *event_info);
+ 
+diff --git a/src/tests/evas/evas_test_evasgl.c b/src/tests/evas/evas_test_evasgl.c
+index 7c069f865ea..39635efb4ef 100644
+--- a/src/tests/evas/evas_test_evasgl.c
++++ b/src/tests/evas/evas_test_evasgl.c
+@@ -175,7 +175,7 @@ _test_evasgl_context_version(const char *engine)
+    /* verify function pointers - GLES 2 only */
+    typedef void (*fptr_t)();
+    const int idx_glViewport = ((char*) &gl->glViewport - (char*) &gl->glActiveTexture) / sizeof(fptr_t);
+-   fptr_t *fptr= &gl->glActiveTexture;
++   fptr_t *fptr= (fptr_t *)&gl->glActiveTexture;
+    for (int i = 0; i < idx_glViewport; i++, fptr++)
+      fail_if(!*fptr);
+ 
