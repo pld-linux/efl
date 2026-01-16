@@ -38,6 +38,7 @@ Patch6:		fc4c5ec8afc3d1d145eff9807e5235ae6bfeea83.patch
 Patch7:		6d47ea358c4ece8ecc94a8aaf8f501e8cdea24fb.patch
 URL:		https://www.enlightenment.org/docs/efl/start
 BuildRequires:	EGL-devel
+BuildRequires:	Mesa-libEGL-devel
 BuildRequires:	OpenGL-GLX-devel
 %{?with_sdl:BuildRequires:	SDL2-devel >= 2.0.0}
 BuildRequires:	avahi-devel
